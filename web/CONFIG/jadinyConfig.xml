@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+<!DOCTYPE root SYSTEM "Page.dtd">
+<root>
+    <startelement>&lt;div class=&quot;blocklayout &quot;&gt;</startelement>
+    <endelement>&lt;div class=&quot;row hidden hidden-pagination&quot;&gt;</endelement>
+    <startelementdetail>&lt;div class=&quot;product-container cf&quot;&gt;</startelementdetail>
+    <endelementdetail>&lt;div class=&quot;themed-product-reviews-manager reading-container&quot;&gt;</endelementdetail>
+    <pages>6</pages>
+    <boy>https://jadiny.vn/collections/be-trai?page=</boy>
+    <girl>https://jadiny.vn/collections/be-gai?page=</girl>
+</root>

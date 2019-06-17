@@ -1,0 +1,11 @@
+*.idea
+
+/build/
+/dist/   
+/test/
+/web/XML/
+
+build.xml
+catalog.xml
+
+/nbproject/private/

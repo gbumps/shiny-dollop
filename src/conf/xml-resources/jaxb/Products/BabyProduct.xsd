@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+<xsd:schema version="1.0"
+           xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://xml.netbeans.org/schema/product" 
+           xmlns="http://xml.netbeans.org/schema/product"
+           elementFormDefault="qualified">
+    <xsd:element name="products">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="product" type="productItem" maxOccurs="unbounded" />
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:complexType name="productItem">
+        <xsd:sequence>
+            <xsd:element name="id" type="xsd:string" nillable="false" />
+            <xsd:element name="name" type="xsd:string" nillable="false" />
+            <xsd:element name="price" type="xsd:nonNegativeInteger" />
+            <xsd:element name="sale" type="xsd:boolean" />
+            <xsd:element name="type" type="xsd:string" />
+            <xsd:element name="link" type="xsd:string" />
+            <xsd:element name="images" type="imageType" maxOccurs="unbounded" />
+            <xsd:element name="options" type="optionType" maxOccurs="unbounded" />
+            <xsd:element name="distributor" type="xsd:string" />
+            <xsd:element name="description" type="xsd:string" />
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="imageType">
+       <xsd:sequence>
+          <xsd:element name="image" type="xsd:string"/>
+       </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="optionType">
+       <xsd:sequence>
+          <xsd:element name="option" type="xsd:string"/>
+       </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>
