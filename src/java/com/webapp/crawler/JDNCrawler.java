@@ -5,6 +5,7 @@
  */
 package com.webapp.crawler;
 
+import com.webapp.settings.Constants;
 import com.webapp.settings.PropertiesReading;
 
 /**
@@ -13,14 +14,22 @@ import com.webapp.settings.PropertiesReading;
  */
 public class JDNCrawler extends BaseCrawler implements Runnable{
 
-	public JDNCrawler(PropertiesReading propertiesReading) {
-		super(propertiesReading);
-	}
+
 
 	@Override
 	public void run() {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+		BaseCrawler jdnCrawler = new BaseCrawler();
+		jdnCrawler.setPropertiesReading(new PropertiesReading(Constants.JADINY_CONFIG_DIRECTORY));
+		jdnCrawler.setXslLinkDirectory(Constants.JADINY_XSL_DIRECTORY);
+		jdnCrawler.setXslLinkDetailDirectory(Constants.JADINY_XSL_DETAIL_DIRECTORY);
+		jdnCrawler.setXmlOutputLinksFile(Constants.JADINY_XML_OUTPUT_ALL_LINKS);
+		jdnCrawler.setXmlOutputDetailFile(Constants.JADINY_XML_OUTPUT_ALL_PRODUCT_DETAILS);
+		try {
+			jdnCrawler.crawl();
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+	  
 	}
-	
 	
 }

@@ -23,11 +23,21 @@ import java.util.stream.Collectors;
  * @author stephen
  */
 public class TextUtils {
+	
+	private static final String scriptTagExpression = "<script.*?</script>";
+	
 	public static String refineHtml(String src) {
-		//src = removeMiscellaneousTags(src);
 		XMLSyntaxChecker xmlsc = new XMLSyntaxChecker();
 		src = xmlsc.check(src);
 		return src; 
+	}
+	
+	public static String subStringHtml(String html, int begin, int end) {
+		return html.substring(begin, end);
+	}
+	
+	public static String removeUnusedTag(String html) {
+		return html.replaceAll(scriptTagExpression, "");
 	}
 	
 //	public static String removeMiscellaneousTags(String src) {

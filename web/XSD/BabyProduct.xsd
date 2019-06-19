@@ -29,6 +29,7 @@ and open the template in the editor.
             <xsd:element name="options" type="optionType" />
             <xsd:element name="distributor" type="xsd:string" />
             <xsd:element name="description" type="xsd:string" />
+            <xsd:element name="sex" type="xsd:boolean" />
         </xsd:sequence>
     </xsd:complexType>
     <xsd:complexType name="imageType">

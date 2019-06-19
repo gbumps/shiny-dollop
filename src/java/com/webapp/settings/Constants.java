@@ -25,12 +25,15 @@ public class Constants {
 	public static final String JADINY_CONFIG_DIRECTORY = "web/CONFIG/jadinyConfig.xml";
 	public static final String JADINY_XSL_DIRECTORY = "web/XSLT/jadiny.xsl";
 	public static final String JADINY_XSL_DETAIL_DIRECTORY = "web/XSLT/jadinyDetail.xsl";
-	public static final String JADINY_SAVE_CRAWLED_DIRECTORY = "";
-	public static final String JADINY_SAVE_OUTPUT_TRANSFORM_DIRECTORY = "";
+	public static final String JADINY_XML_OUTPUT_ALL_LINKS = "web/XML/jadinyOutputLinks.xml";
+	public static final String JADINY_XML_OUTPUT_ALL_PRODUCT_DETAILS = "web/XML/jadinyOutputDetails.xml";
 	
-	public static final String BEXINH_CONFIG_DIRECTORY = "web/CONFIG/BexinhshopConfig.xml";
-	public static final String BEXINH_SAVE_CRAWLED_DIRECTORY = "";
-	public static final String BEXINH_SAVE_OUTPUT_TRANSFORM_DIRECTORY = "";
+	public static final String BLUEKID_CONFIG_DIRECTORY = "web/CONFIG/BluekidsConfig.xml";
+	public static final String BLUEKID_XSL_DIRECTORY = "web/XSLT/bluekids.xsl";
+	public static final String BLUEKID_XSL_DETAIL_DIRECTORY = "web/XSLT/bluekidsDetail.xsl";
+	public static final String BLUEKID_XML_OUTPUT_ALL_LINKS = "web/XML/bluekidsOutputLinks.xml";
+	public static final String BLUEKID_XML_OUTPUT_ALL_PRODUCT_DETAILS = "web/XML/bluekidsOutputDetails.xml";
 	
+	public static final String GOOGLE_BOT = "Googlebot/2.1 (+http://www.googlebot.com/bot.html)";
 	
 }

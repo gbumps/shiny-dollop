@@ -5,12 +5,15 @@
  */
 package com.webapp.settings;
 
+import com.webapp.crawler.DomParser;
 import java.io.File;
 import java.io.Serializable;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 /**
  *
@@ -19,21 +22,21 @@ import org.w3c.dom.Element;
 public class PropertiesReading implements Serializable {
 	
 	private String configFilePath;
+	private NodeList nodes;
 	private Document doc;
+	
 	
 	public PropertiesReading(String configFilePath) {
 		this.configFilePath = configFilePath;
 	}
 
-	public Document getDoc() {
-		return doc;
+	public NodeList getNodes() {
+		return nodes;
 	}
 
-	public void setDoc() throws Exception {
-		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-		DocumentBuilder db = dbf.newDocumentBuilder();
-		File f = new File(configFilePath); 
-		this.doc = db.parse(f);
+	public void setNodes() throws Exception {
+		doc = DomParser.returnDocument(configFilePath);
+		this.nodes = DomParser.returnNodeList(doc);
 	}
 	
 	public String getConfigFilePath() {
@@ -45,38 +48,45 @@ public class PropertiesReading implements Serializable {
 	}
 
 	public String getStartElement() {
-		Element node = (Element) doc.getElementsByTagName(Constants.XML_CONFIG[0]);
-		return node.getTextContent();
+		return returnNodeContext(Constants.XML_CONFIG[0]);
+		
 	}
 
 	public String getEndElement() {
-		Element node = (Element) doc.getElementsByTagName(Constants.XML_CONFIG[1]);
-		return node.getTextContent();
+		return returnNodeContext(Constants.XML_CONFIG[1]);
+		
 	}
 
 	public String getStartDetailCrawl() {
-		Element node = (Element) doc.getElementsByTagName(Constants.XML_CONFIG[2]);
-		return node.getTextContent();
+		return returnNodeContext(Constants.XML_CONFIG[2]);
 	}
 
 	public String getEndDetailCrawl() {
-		Element node = (Element) doc.getElementsByTagName(Constants.XML_CONFIG[3]);
-		return node.getTextContent();
+		return returnNodeContext(Constants.XML_CONFIG[3]);
+		
 	}
 	
 	public Integer getPages() {
-		Element node = (Element) doc.getElementsByTagName(Constants.XML_CONFIG[4]);
-		return Integer.parseInt(node.getTextContent());
+		return Integer.parseInt(returnNodeContext(Constants.XML_CONFIG[4]));
 	}
 	
 	public String getBoyPage() {
-		Element node = (Element) doc.getElementsByTagName(Constants.XML_CONFIG[5]);
-		return node.getTextContent();
+		return returnNodeContext(Constants.XML_CONFIG[5]);
+		
 	}
 	
 	public String getGirlPage() {
-		Element node = (Element) doc.getElementsByTagName(Constants.XML_CONFIG[6]);
-		return node.getTextContent();
+		return returnNodeContext(Constants.XML_CONFIG[6]);
+		
 	}
 	
+	private String returnNodeContext(String findElement) {
+		for (int i = 0;i < nodes.getLength();i++) {
+			if (nodes.item(i).getNodeType() == Node.ELEMENT_NODE &&
+	    nodes.item(i).getNodeName() == findElement) {
+				return nodes.item(i).getTextContent();
+			}
+		}
+		return "";
+	}
 } 

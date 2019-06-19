@@ -8,6 +8,7 @@ package com.webapp.crawler;
 import com.webapp.checker.XMLSyntaxChecker;
 import com.webapp.jaxb.ProductItem;
 import com.webapp.jaxb.Products;
+import com.webapp.settings.Constants;
 import com.webapp.settings.PropertiesReading;
 import com.webapp.util.TextUtils;
 import java.io.BufferedReader;
@@ -20,12 +21,24 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+import java.security.cert.Certificate;
+import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
+import javax.net.ssl.HttpsURLConnection;
 import javax.xml.XMLConstants;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
@@ -38,6 +51,9 @@ import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 /**
  *
  * @author stephen
@@ -47,13 +63,31 @@ public class BaseCrawler {
 	private PropertiesReading propertiesReading;
 	private String xslLinkDirectory;
 	private String xslLinkDetailDirectory;
+	private String xmlOutputLinksFile;
+	private String xmlOutputDetailFile;
+	private static final String UserAgent = "User-Agent";
 
-	public BaseCrawler(PropertiesReading propertiesReading, String xslLinkDirectory, String xslLinkDetailDirectory) {
+
+	public void setPropertiesReading(PropertiesReading propertiesReading) {
 		this.propertiesReading = propertiesReading;
+	}
+
+	public void setXslLinkDirectory(String xslLinkDirectory) {
 		this.xslLinkDirectory = xslLinkDirectory;
+	}
+
+	public void setXslLinkDetailDirectory(String xslLinkDetailDirectory) {
 		this.xslLinkDetailDirectory = xslLinkDetailDirectory;
 	}
-	
+
+	public void setXmlOutputLinksFile(String xmlOutputLinksFile) {
+		this.xmlOutputLinksFile = xmlOutputLinksFile;
+	}
+
+	public void setXmlOutputDetailFile(String xmlOutputDetailFile) {
+		this.xmlOutputDetailFile = xmlOutputDetailFile;
+	}
+
 	
 
 //	public BaseCrawler(PropertiesReading propertiesReading) {
@@ -74,17 +108,19 @@ public class BaseCrawler {
 //	}
 	
   private String getHtmlDocsBody(String urlString, String startElement, String endElement) throws MalformedURLException, IOException {
-		  StringBuilder document = new StringBuilder();
+		  //StringBuilder document = new StringBuilder();
+			String document = "";
 			XMLSyntaxChecker checker = new XMLSyntaxChecker();
 			URL url = new URL(urlString);
-			URLConnection connection = url.openConnection();
-			connection.addRequestProperty("User-Agent", "Unknown");
+			URLConnection connection = url.openConnection() ;
+			connection.addRequestProperty(UserAgent, Constants.GOOGLE_BOT);
 			InputStream is = connection.getInputStream();
 			BufferedReader reader = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
-			String resultDoc = document.append(checker.check(reader.lines().collect(Collectors.joining()))).substring(document.indexOf(startElement), document.indexOf(endElement, document.indexOf(startElement)));
-			//System.out.println("document: " + resultDoc);
+		  document = TextUtils.removeUnusedTag(checker.check(reader.lines().collect(Collectors.joining())));
+			//System.out.println("doc: " + document.toString());
+		  String result = TextUtils.subStringHtml(document.toString(), document.indexOf(startElement), document.indexOf(endElement, document.indexOf(startElement)));
 			reader.close();
-			return resultDoc;
+			return result;
 	}
 	
 	private void readDataAndTransformToXML(String pathToXSL, String outputFileXML, String html) throws Exception{
@@ -96,17 +132,12 @@ public class BaseCrawler {
 		trans.transform(new StreamSource(new StringReader(html)), streamResult);
 	}	
 	
-	private void setDocumentConfig(String configFilePath) throws Exception { 
-		propertiesReading = new PropertiesReading(configFilePath);  
-		propertiesReading.setDoc();
+	private void setDocumentConfig() throws Exception {  
+		propertiesReading.setNodes();
 	}
 	
-	private void getEachProductLink(String numberOfPages) {
-		
-	}
-	
- 	public void crawl(String configFilePath) throws Exception {
-		setDocumentConfig(configFilePath);
+ 	public void crawl() throws Exception {
+	  setDocumentConfig();
 		StringBuilder htmlDocs = new StringBuilder();
 		//ArrayList<String> configs = propertiesReading.getConfigs();
 	  //TextUtils t = new TextUtils();
@@ -117,11 +148,15 @@ public class BaseCrawler {
 		  String boyHtmlProductDetailLinks = getHtmlDocsBody(boyLink, propertiesReading.getStartElement(), propertiesReading.getEndElement()), 
 							girlHtmlProductDetailLinks = getHtmlDocsBody(girlLink, propertiesReading.getStartElement(), propertiesReading.getEndElement());
 		  htmlDocs.append(boyHtmlProductDetailLinks);
+			System.out.println("page " + i + " boy finished !");
 			htmlDocs.append(girlHtmlProductDetailLinks);
+			System.out.println("page " + i + " girl finished !");
 		}
 	  htmlDocs.insert(0, "<root>").insert(htmlDocs.length(), "</root>");
-		readDataAndTransformToXML(configFilePath, configFilePath, configFilePath);
-					//System.out.println("res: " + htmlDocs);
+		System.out.println("finished get link of all products !");
+		readDataAndTransformToXML(xslLinkDirectory, xmlOutputLinksFile, htmlDocs.toString());
+    System.out.println("finished transform !");
+		
 //		  FileWriter fw = new FileWriter("web/XML/crawled.xml");
 //					fw.write(htmlDocs);
 //					fw.close();
@@ -155,46 +190,51 @@ public class BaseCrawler {
 //					StreamResult streamResult = new StreamResult(new FileOutputStream("web/XML/jadiny.xml"));
 //					trans.transform(xmlFile, streamResult);
 //						System.out.println("Transform completed !");
-					JAXBContext jaxbc = JAXBContext.newInstance("com.webapp.jaxb");
-					Unmarshaller u = jaxbc.createUnmarshaller();
-					SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-					Schema schema = factory.newSchema(new File("web/XSD/BabyProduct.xsd"));
-					u.setSchema(schema);
-					//Validator validator = schema.newValidator();
-				  File f = new File("web/XML/jadiny.xml");
-					Products products  = (Products) u.unmarshal(f);
-					ProductItem productItem = products.getProduct().get(1);
-					System.out.println("product id: " + productItem.getId());
-					//validator.validate(new SAXSource(xmlRes));
-						System.out.println("validate completed !");
-					//b.readDataAndTransformToXML(,, htmlRes);
-					//} 
+
+//					JAXBContext jaxbc = JAXBContext.newInstance("com.webapp.jaxb");
+//					Unmarshaller u = jaxbc.createUnmarshaller();
+//					SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+//					Schema schema = factory.newSchema(new File("web/XSD/BabyProduct.xsd"));
+//					u.setSchema(schema);
+//					//Validator validator = schema.newValidator();
+//				  File f = new File("web/XML/jadiny.xml");
+//					Products products  = (Products) u.unmarshal(f);
+//					ProductItem productItem = products.getProduct().get(1);
+//					System.out.println("product id: " + productItem.getId());
+//					//validator.validate(new SAXSource(xmlRes));
+//						System.out.println("validate completed !");
+//					//b.readDataAndTransformToXML(,, htmlRes);
+//					//} 
 	}
 	
+	public ArrayList getListProductDetail(String file) throws Exception {	
+		//FileInputStream fis = new FileInputStream(new File(xmlOutputLinks));
+		 ArrayList<String> listProductLinks = new ArrayList<>();
+		 Document d = DomParser.returnDocument(file);
+		 NodeList nodes = DomParser.returnNodeList(d);
+		 for (int i=0; i<nodes.getLength(); i++){
+			 if (nodes.item(i).getNodeType() == Node.ELEMENT_NODE && nodes.item(i).getNodeName() == "Link"){					listProductLinks.add(nodes.item(i).getTextContent());
+			 }
+		 }
+		 return listProductLinks;
+	} 
 	
-	
-//	public void getEachProductDetail(String product) throws Exception {
-//		 FileInputStream fis = new FileInputStream(new File("web/XML/crawled"));
-//	} 
-	
-//	 public String getWebData(String link) {
-////			final String REGEX = "(>|<)((\\s){1,})"; 
-////			final String SUBSTANCE = "$1"; 
-//			BufferedReader r = null;
-//			String document = "";
-//			try {
-//				 r = getBufferedReaderForURL(link);
-//				 document = r.lines().collect(Collectors.joining(""));
-//				 //document = Pattern.compile(REGEX, Pattern.MULTILINE).matcher(document).replaceAll(SUBSTANCE);
-//				 //int start = document.indexOf(startElement), end = document.indexOf(endElement, start);
-//				 //document = document.substring(start, end);
-//				 //System.out.println("crawled: " + document);
-//				 r.close();
-//			} catch (Exception e) {
-//				 e.printStackTrace();
-//			}
-//			return document;
-//	 }
-//	 
-	
+	public void test() throws Exception {
+		setDocumentConfig();
+		ArrayList<String> list = getListProductDetail(xmlOutputLinksFile);
+	  //list.forEach(t -> System.out.println("link: " + t.toString()));
+		String html = list.get(0).toString();
+		//System.out.println("html: " + html);
+		String doc = "<products>" + "<product>"+ getHtmlDocsBody(html, propertiesReading.getStartDetailCrawl(), propertiesReading.getEndDetailCrawl()) + "</main>" + "<link href='"+ html +"'/>" + "</product>" + "</products>";
+							TransformerFactory transformerFactory = TransformerFactory.newInstance();
+					StreamSource xslt = new StreamSource(xslLinkDetailDirectory);
+					Transformer trans = transformerFactory.newTransformer(xslt);
+					StreamSource xmlFile = new StreamSource(new StringReader(doc));
+					StreamResult streamResult = new StreamResult(new FileOutputStream(xmlOutputDetailFile));
+					trans.transform(xmlFile, streamResult);
+						System.out.println("Transform completed !");
+	  //System.out.println("test: " + doc);
+		
+	} 
+
 }

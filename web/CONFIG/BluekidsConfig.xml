@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+<!DOCTYPE root SYSTEM "Page.dtd">
+<root>
+    <startelement>&lt;div class=&quot;product-lists box-product-lists mt15 clearfix row&quot;&gt;</startelement>
+    <endelement>&lt;div class=&quot;clearfix loadmore row&quot;&gt;</endelement>
+    <startelementdetail>&lt;main class=&quot;padding-top-mobile&quot;&gt;</startelementdetail>
+    <endelementdetail>&lt;/main&gt;</endelementdetail>
+    <pages>3</pages>
+    <boy>http://bluekids.vn/collections/be-trai-4-14?page=</boy>
+    <girl>http://bluekids.vn/collections/be-gai-4-14?page=</girl>
+</root>

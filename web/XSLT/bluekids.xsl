@@ -15,13 +15,12 @@
          syntax recommendation http://www.w3.org/TR/xslt 
     -->
     <xsl:template match="/">
-        <html>
-            <head>
-                <title>bexinhshop.xsl</title>
-            </head>
-            <body>
-            </body>
-        </html>
+        <ProductDetailLinks>
+            <xsl:for-each select="//div[@class='item product-item product-grid-item h-hover-alt col-md-3 col-sm-6 col-xs-6 product-wrapper product-item animated zoomIn']">
+                <xsl:variable name="link" select="./div/div/div/a/@href"/>
+                <Link>http://bluekids.vn<xsl:value-of select="$link"/></Link>
+            </xsl:for-each>
+        </ProductDetailLinks>
     </xsl:template>
 
 </xsl:stylesheet>
