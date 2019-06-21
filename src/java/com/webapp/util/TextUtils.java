@@ -6,18 +6,6 @@
 package com.webapp.util;
 
 import com.webapp.checker.XMLSyntaxChecker;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
-import java.nio.charset.StandardCharsets;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
-
 /**
  *
  * @author stephen
@@ -25,6 +13,7 @@ import java.util.stream.Collectors;
 public class TextUtils {
 	
 	private static final String scriptTagExpression = "<script.*?</script>";
+	private static final String styleTagExpression = "<style.*?</style>";
 	
 	public static String refineHtml(String src) {
 		XMLSyntaxChecker xmlsc = new XMLSyntaxChecker();
@@ -37,7 +26,8 @@ public class TextUtils {
 	}
 	
 	public static String removeUnusedTag(String html) {
-		return html.replaceAll(scriptTagExpression, "");
+		return html.replaceAll(scriptTagExpression, "")
+								.replaceAll(styleTagExpression, "");
 	}
 	
 //	public static String removeMiscellaneousTags(String src) {

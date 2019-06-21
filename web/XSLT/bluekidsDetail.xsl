@@ -21,6 +21,11 @@
             <xsl:for-each select="//product">
               <xsl:variable name="container" select="main[@class='padding-top-mobile']/div[@class='container']/div/div" />
               <xsl:variable name="info" select="$container/div[1]/div[2]"/>
+              <xsl:variable name="images" select="$container/div[1]/div[1]/div/div/div[@class='col-lg-3 col-lg-pull-9 col-md-12 col-sm-12 col-xs-12']/div/ul"/>
+              <xsl:variable name="sale" select="$info/span[@class='product-price  hidden-xs']/del"/>
+              <xsl:variable name="price" select="$info/div[@class='product-price  hidden-xs']/span"/>
+              <xsl:variable name="price1" select="translate($price,'₫','')"/>
+              <xsl:variable name="price2" select="translate($price1,',','')"/>
 <!--              <xsl:variable name="images" select="$container/div[@class='product-gallery ']/div[@class='gallery-thumbs']"/>
               <xsl:variable name="options" select="$container/div[@class='product-info']/div[@class='inner']/form[@class='product-form']/div[@class='productoptions section']/div[1]/select[@class='original-selector']"/>-->
 
@@ -31,19 +36,32 @@
                 <name>
                     <xsl:value-of select="$info/div[1]/h1"/>
                 </name>
-                <price>
-                    <xsl:variable name="price" select="$info/div[@class='product-price  hidden-xs']/span/text()"/>
-                    <xsl:variable name="price1" select="translate($price,'₫','')"/>
-                    <xsl:variable name="price2" select="translate($price1,'.',',')"/>
-                    <xsl:value-of select="number($price2)"/>
-                </price>
                 <sale>
-                    <xsl:variable name="sale" select="$info/span[@class='productlabel sale']/del"/>
                     <xsl:choose>
-                        <xsl:when test="($sale='')">false</xsl:when>
-                        <xsl:otherwise>true</xsl:otherwise>
+                        <xsl:when test="$sale != ''">
+                            true
+                        </xsl:when>
+                        <xsl:otherwise>
+                            false
+                        </xsl:otherwise>
                     </xsl:choose>
                 </sale>
+                <price>
+                    
+                    <xsl:value-of select="number($price2)"/>
+                </price>
+                <oldprice>
+                    <xsl:choose>
+                        <xsl:when test="$sale != ''">
+                            <xsl:variable name="sale1" select="translate($sale,'₫','')"/>
+                            <xsl:variable name="sale2" select="translate($sale1,',','')"/>
+                            <xsl:value-of select="number($sale2)"/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:value-of select="number($price2)"/>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </oldprice>
                 <type>
                     <xsl:value-of select="substring-before($info/div[1]/h1,' ')"/>
                 </type>
@@ -51,11 +69,11 @@
                     <xsl:value-of select="link/@href"/>
                 </link>
                 <images>
-<!--                    <xsl:for-each select="$images/a">
+                    <xsl:for-each select="$images/li">
                         <image>
-                            <xsl:value-of select="./div/div/noscript/img/@src"/>
+                            <xsl:value-of select="a/img/@src"/>
                         </image>  
-                    </xsl:for-each>-->
+                    </xsl:for-each>
                 </images>
                 <options>
                     <xsl:for-each select="$info/form/div[@class='select clearfix']/select/option">
@@ -65,17 +83,23 @@
                     </xsl:for-each>
                 </options>
                 <sex>
-                    <xsl:variable name="sexInfo" select="./div[1]/div/div/div/ol/li[3]/a/text()"/>
+                    <xsl:variable name="sex" select="./div[1]/div/div/div/ol/li[3]/a/@href"/>
                     <xsl:choose>
-                        <xsl:when test="($sexInfo='Bé trai (4-14)')">true</xsl:when>
-                        <xsl:otherwise>false</xsl:otherwise>
+                        <xsl:when test="$sex != '/collections/be-trai-4-14'">
+                            false
+                        </xsl:when>
+                        <xsl:otherwise>
+                            true
+                        </xsl:otherwise>
                     </xsl:choose>
                 </sex>
                 <distributor>
                     Bluekids
                 </distributor>
                 <description>
-<!--                    <xsl:value-of select="//div[@class='descriptionunder reading-container']/p"/>-->
+                    <xsl:for-each select="$container/div[@class='row']/div/div[@id='']/div/div[@data-platform='haravan']/p">
+                        <xsl:value-of select="."/>
+                    </xsl:for-each>
                 </description>
               </product>
             </xsl:for-each>

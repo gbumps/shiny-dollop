@@ -19,6 +19,7 @@ public class JDNCrawler extends BaseCrawler implements Runnable{
 	@Override
 	public void run() {
 		BaseCrawler jdnCrawler = new BaseCrawler();
+		jdnCrawler.setWebPageName("Jadiny");
 		jdnCrawler.setPropertiesReading(new PropertiesReading(Constants.JADINY_CONFIG_DIRECTORY));
 		jdnCrawler.setXslLinkDirectory(Constants.JADINY_XSL_DIRECTORY);
 		jdnCrawler.setXslLinkDetailDirectory(Constants.JADINY_XSL_DETAIL_DIRECTORY);

@@ -65,8 +65,15 @@ public class BaseCrawler {
 	private String xslLinkDetailDirectory;
 	private String xmlOutputLinksFile;
 	private String xmlOutputDetailFile;
+	private String webPageName;
+	
 	private static final String UserAgent = "User-Agent";
+	//private static final String PRODUCTS = "<Products>";
 
+
+	public void setWebPageName(String webPageName) {
+		this.webPageName = webPageName;
+	}
 
 	public void setPropertiesReading(PropertiesReading propertiesReading) {
 		this.propertiesReading = propertiesReading;
@@ -88,39 +95,19 @@ public class BaseCrawler {
 		this.xmlOutputDetailFile = xmlOutputDetailFile;
 	}
 
-	
-
-//	public BaseCrawler(PropertiesReading propertiesReading) {
-//		this.propertiesReading = propertiesReading;
-//	}
-//	public XMLEventReader parseStringtoXMLEventReader(String xmlSection) throws UnsupportedEncodingException, XMLStreamException {
-//			byte[] array = xmlSection.getBytes("UTF-8");
-//			ByteArrayInputStream inputStream = new ByteArrayInputStream(array);
-//			XMLInputFactory inputFactory = XMLInputFactory.newFactory();
-//			XMLEventReader reader = inputFactory.createXMLEventReader(inputStream);
-//			return reader;
-	//}
-	
-//	public BufferedReader parseXMLFileToXMLEventReader(String filePath) throws Exception {
-//		  FileInputStream fis = new FileInputStream(filePath);
-//			BufferedReader br = new BufferedReader(new InputStreamReader(fis, StandardCharsets.UTF_8));
-//			return br;
-//	}
-	
   private String getHtmlDocsBody(String urlString, String startElement, String endElement) throws MalformedURLException, IOException {
-		  //StringBuilder document = new StringBuilder();
 			String document = "";
-			XMLSyntaxChecker checker = new XMLSyntaxChecker();
 			URL url = new URL(urlString);
 			URLConnection connection = url.openConnection() ;
 			connection.addRequestProperty(UserAgent, Constants.GOOGLE_BOT);
 			InputStream is = connection.getInputStream();
 			BufferedReader reader = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
-		  document = TextUtils.removeUnusedTag(checker.check(reader.lines().collect(Collectors.joining())));
-			//System.out.println("doc: " + document.toString());
-		  String result = TextUtils.subStringHtml(document.toString(), document.indexOf(startElement), document.indexOf(endElement, document.indexOf(startElement)));
+		  document = reader.lines().collect(Collectors.joining());
+		  document = TextUtils.subStringHtml(document.toString(), document.indexOf(startElement), document.indexOf(endElement, document.indexOf(startElement)));
+			document = TextUtils.removeUnusedTag(document);
+			document = TextUtils.refineHtml(document);
 			reader.close();
-			return result;
+			return document;
 	}
 	
 	private void readDataAndTransformToXML(String pathToXSL, String outputFileXML, String html) throws Exception{
@@ -225,14 +212,15 @@ public class BaseCrawler {
 	  //list.forEach(t -> System.out.println("link: " + t.toString()));
 		String html = list.get(0).toString();
 		//System.out.println("html: " + html);
-		String doc = "<products>" + "<product>"+ getHtmlDocsBody(html, propertiesReading.getStartDetailCrawl(), propertiesReading.getEndDetailCrawl()) + "</main>" + "<link href='"+ html +"'/>" + "</product>" + "</products>";
-							TransformerFactory transformerFactory = TransformerFactory.newInstance();
-					StreamSource xslt = new StreamSource(xslLinkDetailDirectory);
-					Transformer trans = transformerFactory.newTransformer(xslt);
-					StreamSource xmlFile = new StreamSource(new StringReader(doc));
-					StreamResult streamResult = new StreamResult(new FileOutputStream(xmlOutputDetailFile));
-					trans.transform(xmlFile, streamResult);
-						System.out.println("Transform completed !");
+		//System.out.println("detail: " + propertiesReading.getStartDetailCrawl() + propertiesReading.getEndDetailCrawl());
+		String doc = "<products>" + "<product>"+ getHtmlDocsBody(html, propertiesReading.getStartDetailCrawl(), propertiesReading.getEndDetailCrawl()) + "<link href='"+ html +"'/>" + "</product>" + "</products>";
+	  TransformerFactory transformerFactory = TransformerFactory.newInstance();
+		StreamSource xslt = new StreamSource(xslLinkDetailDirectory);
+		Transformer trans = transformerFactory.newTransformer(xslt);
+		StreamSource xmlFile = new StreamSource(new StringReader(doc));
+		StreamResult streamResult = new StreamResult(new FileOutputStream(xmlOutputDetailFile));
+		trans.transform(xmlFile, streamResult);
+	  System.out.println("Transform completed !");
 	  //System.out.println("test: " + doc);
 		
 	} 

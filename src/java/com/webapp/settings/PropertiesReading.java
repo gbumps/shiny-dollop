@@ -25,6 +25,14 @@ public class PropertiesReading implements Serializable {
 	private NodeList nodes;
 	private Document doc;
 	
+	private static final Integer START_ELEMENT = 0;
+	private static final Integer END_ELEMENT = 1;
+	private static final Integer START_DETAIL_ELEMENT = 2;
+	private static final Integer END_DETAIL_ELEMENT = 3;
+	private static final Integer NUMBER_OF_PAGES = 4;
+	private static final Integer BOY_PAGE = 5;
+	private static final Integer GIRL_PAGE = 6;
+	
 	
 	public PropertiesReading(String configFilePath) {
 		this.configFilePath = configFilePath;
@@ -48,35 +56,35 @@ public class PropertiesReading implements Serializable {
 	}
 
 	public String getStartElement() {
-		return returnNodeContext(Constants.XML_CONFIG[0]);
+		return returnNodeContext(Constants.XML_CONFIG[START_ELEMENT]);
 		
 	}
 
 	public String getEndElement() {
-		return returnNodeContext(Constants.XML_CONFIG[1]);
+		return returnNodeContext(Constants.XML_CONFIG[END_ELEMENT]);
 		
 	}
 
 	public String getStartDetailCrawl() {
-		return returnNodeContext(Constants.XML_CONFIG[2]);
+		return returnNodeContext(Constants.XML_CONFIG[START_DETAIL_ELEMENT]);
 	}
 
 	public String getEndDetailCrawl() {
-		return returnNodeContext(Constants.XML_CONFIG[3]);
+		return returnNodeContext(Constants.XML_CONFIG[END_DETAIL_ELEMENT]);
 		
 	}
 	
 	public Integer getPages() {
-		return Integer.parseInt(returnNodeContext(Constants.XML_CONFIG[4]));
+		return Integer.parseInt(returnNodeContext(Constants.XML_CONFIG[NUMBER_OF_PAGES]));
 	}
 	
 	public String getBoyPage() {
-		return returnNodeContext(Constants.XML_CONFIG[5]);
+		return returnNodeContext(Constants.XML_CONFIG[BOY_PAGE]);
 		
 	}
 	
 	public String getGirlPage() {
-		return returnNodeContext(Constants.XML_CONFIG[6]);
+		return returnNodeContext(Constants.XML_CONFIG[GIRL_PAGE]);
 		
 	}
 	

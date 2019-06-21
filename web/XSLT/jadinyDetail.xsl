@@ -24,7 +24,7 @@
               <xsl:variable name="images" select="$container/div[@class='product-gallery ']/div[@class='gallery-thumbs']"/>
               <xsl:variable name="options" select="$container/div[@class='product-info']/div[@class='inner']/form[@class='product-form']/div[@class='productoptions section']/div[1]/select[@class='original-selector']"/>
 
-              <product >
+              <product>
                 <id> 
                     <xsl:value-of select="$info/div[@class='product-classification']/div/span[@class='sku__value']"/>
                 </id>

@@ -21,8 +21,9 @@ and open the template in the editor.
         <xsd:sequence>
             <xsd:element name="id" type="xsd:string" nillable="false" />
             <xsd:element name="name" type="xsd:string" nillable="false" />
-            <xsd:element name="price" type="xsd:nonNegativeInteger" />
             <xsd:element name="sale" type="xsd:boolean" />
+            <xsd:element name="price" type="xsd:nonNegativeInteger" />
+            <xsd:element name="oldprice" type="xsd:nonNegativeInteger" />
             <xsd:element name="type" type="xsd:string" />
             <xsd:element name="link" type="xsd:string" />
             <xsd:element name="images" type="imageType" />

@@ -18,6 +18,7 @@ public class BLKCrawler extends BaseCrawler implements Runnable {
 	@Override
 	public void run() {
 		BaseCrawler blkCrawler = new BaseCrawler();
+		blkCrawler.setWebPageName("blueKids");
 		blkCrawler.setPropertiesReading(new PropertiesReading(Constants.BLUEKID_CONFIG_DIRECTORY));
 		blkCrawler.setXslLinkDirectory(Constants.BLUEKID_XSL_DIRECTORY);
 		blkCrawler.setXslLinkDetailDirectory(Constants.BLUEKID_XSL_DETAIL_DIRECTORY);
