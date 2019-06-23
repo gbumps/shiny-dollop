@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.webapp.dbtools;
+package com.webapp.settings;
 
 import java.io.Serializable;
 import java.sql.Connection;
@@ -19,7 +19,7 @@ public class ConnectionClass implements Serializable{
 	 
    public static Connection GetConnection() throws SQLException,ClassNotFoundException {
         Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-        String url = "jdbc:sqlserver://localhost:1433;databasename=Products;user=sa;password=Thong841269@";
+        String url = "jdbc:sqlserver://localhost:1433;databasename=Products;user=sa;password=Thong841269!;useUnicode=true;characterEncoding=UTF-8";
         c = DriverManager.getConnection(url);
         return c;
         //return an instance of database connection

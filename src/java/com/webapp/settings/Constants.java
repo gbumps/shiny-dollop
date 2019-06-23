@@ -34,6 +34,10 @@ public class Constants {
 	public static final String BLUEKID_XML_OUTPUT_ALL_LINKS = "web/XML/bluekidsOutputLinks.xml";
 	public static final String BLUEKID_XML_OUTPUT_ALL_PRODUCT_DETAILS = "web/XML/bluekidsOutputDetails.xml";
 	
+	public static final String SCHEMA_FILE_DIRECTORY = "web/XSD/BabyProduct.xsd";
+	
+	public static final String PACKAGE_JAXB = "com.webapp.jaxb"; 
+	
 	public static final String GOOGLE_BOT = "Googlebot/2.1 (+http://www.googlebot.com/bot.html)";
 	
 }
