@@ -19,7 +19,7 @@ public class ConnectionClass implements Serializable{
 	 
    public static Connection GetConnection() throws SQLException,ClassNotFoundException {
         Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-        String url = "jdbc:sqlserver://localhost:1433;databasename=Products;user=sa;password=Thong841269!;useUnicode=true;characterEncoding=UTF-8";
+        String url = "jdbc:sqlserver://localhost:1433;databasename=Products;user=sa;password=Thong841269!";
         c = DriverManager.getConnection(url);
         return c;
         //return an instance of database connection

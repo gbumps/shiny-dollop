@@ -48,10 +48,14 @@ public class BaseCrawler {
 	private String xmlOutputLinksFile;
 	private String xmlOutputDetailFile;
 	private String webPageName;
+	private String contextPath;
 	
 	private static final String UserAgent = "User-Agent";
 	//private static final String PRODUCTS = "<Products>";
 
+	public void setContextPath(String contextPath) {
+		this.contextPath = contextPath;
+	}
 
 	public void setWebPageName(String webPageName) {
 		this.webPageName = webPageName;
@@ -96,7 +100,6 @@ public class BaseCrawler {
 		TransformerFactory transformerFactory = TransformerFactory.newInstance();
 		StreamSource xslt = new StreamSource(pathToXSL);
 		Transformer trans = transformerFactory.newTransformer(xslt);
-		//StreamSource xmlFile = new StreamSource(pathToXML);
 		StreamResult streamResult = new StreamResult(new FileOutputStream(outputFileXML));
 		trans.transform(new StreamSource(new StringReader(html)), streamResult);
 	}	
@@ -154,12 +157,12 @@ public class BaseCrawler {
 		 return listProductLinks;
 	} 
 	
-	public void insertToDB() throws Exception {
+	private void insertToDB() throws Exception {
 		setDocumentConfig();
 		JAXBContext jaxbc = JAXBContext.newInstance(Constants.PACKAGE_JAXB);
 	  Unmarshaller u = jaxbc.createUnmarshaller();
     SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-	  Schema schema = factory.newSchema(new File(Constants.SCHEMA_FILE_DIRECTORY));
+	  Schema schema = factory.newSchema(new File(contextPath + Constants.SCHEMA_FILE_DIRECTORY));
 		u.setSchema(schema);
 	  File f = new File(xmlOutputDetailFile);
 	  Products products  = (Products) u.unmarshal(f);

@@ -16,9 +16,10 @@ public class JDNCrawler extends BaseCrawler implements Runnable{
 
 	private Thread t;
 	private String threadName;
-
-	public JDNCrawler(String threadName) {
-		//this.t = t;
+	private String contextPath;
+	
+	public JDNCrawler(String threadName, String contextPath) {
+		this.contextPath = contextPath;
 		this.threadName = threadName;
 	}
 	
@@ -27,11 +28,12 @@ public class JDNCrawler extends BaseCrawler implements Runnable{
 	public void run() {
 		BaseCrawler jdnCrawler = new BaseCrawler();
 		jdnCrawler.setWebPageName(threadName);
-		jdnCrawler.setPropertiesReading(new PropertiesReading(Constants.JADINY_CONFIG_DIRECTORY));
-		jdnCrawler.setXslLinkDirectory(Constants.JADINY_XSL_DIRECTORY);
-		jdnCrawler.setXslDetailDirectory(Constants.JADINY_XSL_DETAIL_DIRECTORY);
-		jdnCrawler.setXmlOutputLinksFile(Constants.JADINY_XML_OUTPUT_ALL_LINKS);
-		jdnCrawler.setXmlOutputDetailFile(Constants.JADINY_XML_OUTPUT_ALL_PRODUCT_DETAILS);
+		jdnCrawler.setPropertiesReading(new PropertiesReading(contextPath + Constants.JADINY_CONFIG_DIRECTORY));
+		jdnCrawler.setContextPath(contextPath);
+		jdnCrawler.setXslLinkDirectory(contextPath + Constants.JADINY_XSL_DIRECTORY);
+		jdnCrawler.setXslDetailDirectory(contextPath + Constants.JADINY_XSL_DETAIL_DIRECTORY);
+		jdnCrawler.setXmlOutputLinksFile(contextPath + Constants.JADINY_XML_OUTPUT_ALL_LINKS);
+		jdnCrawler.setXmlOutputDetailFile(contextPath + Constants.JADINY_XML_OUTPUT_ALL_PRODUCT_DETAILS);
 		try {
 			jdnCrawler.crawl();
 			//jdnCrawler.test();

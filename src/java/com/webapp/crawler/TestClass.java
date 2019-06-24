@@ -15,8 +15,8 @@ public class TestClass extends BaseCrawler{
 	public static void main(String[] args) {
 		//JDNCrawler jdnc = new JDNCrawler("Jadiny");
 		//jdnc.start();
-		BLKCrawler bxsc = new BLKCrawler("BlueKids");
-	  bxsc.start();
+		//BLKCrawler bxsc = new BLKCrawler("BlueKids");
+	 // bxsc.start();
 		//System.out.println("Insert item completed !");
 	}
 	
