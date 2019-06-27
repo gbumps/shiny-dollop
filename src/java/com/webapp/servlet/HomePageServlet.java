@@ -5,14 +5,11 @@
  */
 package com.webapp.servlet;
 
-import com.webapp.crawler.BLKCrawler;
-import com.webapp.crawler.JDNCrawler;
 import com.webapp.settings.Constants;
 import com.webapp.util.DBUtils;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,8 +18,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author stephen
  */
-@WebServlet(name = "CrawlServlet", urlPatterns = {"/CrawlServlet"})
-public class CrawlServlet extends HttpServlet {
+public class HomePageServlet extends HttpServlet {
 
 	/**
 	 * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,26 +30,18 @@ public class CrawlServlet extends HttpServlet {
 	 * @throws IOException if an I/O error occurs
 	 */
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-					throws ServletException, IOException  {
+					throws ServletException, IOException {
 		response.setContentType("text/html;charset=UTF-8");
 		try (PrintWriter out = response.getWriter()) {
+			String root = "FOR XML PATH ('Product'), ROOT ('Products'), TYPE";
 			/* TODO output your page here. You may use following sample code. */
-		  String contextPath = getServletContext().getRealPath("/");
-			//System.out.println("context: " + contextPath);
+			String sql = "SELECT TOP 100 Name, Price, OldPrice FROM tblProduct " + root;
+			//System.out.println("sql: " + sql);
 			DBUtils db = new DBUtils();
-			if (db.checkProductsCrawled()) {
-				request.setAttribute("CRAWL_STATUS", "Products has already been crawled, go to homepage instead !");
-			}
-		  else {
-			  JDNCrawler jdnc = new JDNCrawler(Constants.JADINY, contextPath);
-				BLKCrawler blkc = new BLKCrawler(Constants.BLUEKID, contextPath);
-				jdnc.run();
-				blkc.run();
-				request.setAttribute("CRAWL_STATUS", "Crawl completed !");
-			}
-			request.getRequestDispatcher("index.jsp").forward(request, response);
-		} catch(Exception ex) {
-			ex.printStackTrace();
+			request.setAttribute("ProductList", db.getDataFromDB(sql));
+			request.getRequestDispatcher("homepage.jsp").forward(request, response);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 

@@ -85,21 +85,45 @@ public class DBUtils implements Serializable {
 			System.out.println("Insert item completed !");
 		}
 	 
-	 private Byte parseByte(boolean b) {
-		 return Byte.parseByte(b ? "1": "0");
-	 }
-	 
-	 private void closeConnection() throws Exception{
-		 if (rs != null) {
-			 rs.close();
+	 public boolean checkProductsCrawled() throws Exception {
+		 con = ConnectionClass.GetConnection();
+		 p = con.prepareStatement("SELECT TOP 300 * FROM tblProduct");
+		 rs = p.executeQuery();
+		 int count = 0;
+		 while(rs.next()) {
+			 count++;
 		 }
-		 if (p != null) {
-				p.close();
-			}
-			if (con != null) {
-        con.close(); 
-			}
+		 closeConnection();
+		 if (count < 300) return false;
+		 else return true;
+	 } 
+	 
+	 public String getDataFromDB(String sql) throws Exception {
+		 String res = "";
+		 con = ConnectionClass.GetConnection();
+		 p = con.prepareStatement(sql);
+		 rs = p.executeQuery();
+		 if (rs.next()) {
+			 res = rs.getString(1);
+		 }
+		 closeConnection();
+		 return res;
 	 }
 	 
+	private Byte parseByte(boolean b) {
+		return Byte.parseByte(b ? "1": "0");
+	}
+	 
+	private void closeConnection() throws Exception{
+		if (rs != null) {
+			rs.close();
+		}
+		if (p != null) {
+			p.close();
+		}
+		if (con != null) {
+      con.close(); 
+		}
+	}
 	 
 }

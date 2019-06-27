@@ -1,0 +1,36 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Jun 27, 2019, 4:48:21 PM
+    Author     : stephen
+*/
+
+body {
+    font-family:  Circular, Helvetica Neue, Roboto, sans-sefif;
+    font-size: 14px;
+    line-height: 1.43;
+    color: #484848;
+    background-color: "#fff";
+    -webkit-font-smoothing: antialiased;
+}
+
+.NavBar {
+    width:100%;
+    display: table !important;
+}
+
+.productItem {
+    width: 170px;
+    transition: box-shadow .3s;
+    height: 300px;
+    font-size: 11px;
+    box-shadow: 1px 4px 8px 0 rgba(0,0,0,0.2);
+    border-radius: 15px;
+    display: inline-block;
+    padding: 8px;
+    margin: 1em;
+    overflow: hidden;
+}

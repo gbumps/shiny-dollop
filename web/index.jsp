@@ -28,6 +28,9 @@
         <form action="CrawlServlet" method="POST">
             <input id="btnCrawl" type="submit" value="Crawl" onclick="changeButton()"/>
         </form>
+        <form action="HomePageServlet" method="POST">
+            <input type="submit" value="Go to Homepage"/>
+        </form>
         <p id="craw_result">${requestScope.CRAWL_STATUS}</p>
         <p id="craw_status" style="display: none">Crawling, please wait....</p>
     </body>
