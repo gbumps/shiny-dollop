@@ -36,6 +36,9 @@ public class Constants {
 	public static final String BLUEKID_XML_OUTPUT_ALL_LINKS = "XML/bluekidsOutputLinks.xml";
 	public static final String BLUEKID_XML_OUTPUT_ALL_PRODUCT_DETAILS = "XML/bluekidsOutputDetails.xml";
 	
+	public static final String PRODUCTS = "Products";
+	public static final String PRODUCT = "Product";
+	
 	public static final String SCHEMA_FILE_DIRECTORY = "XSD/BabyProduct.xsd";
 	
 	public static final String PACKAGE_JAXB = "com.webapp.jaxb"; 

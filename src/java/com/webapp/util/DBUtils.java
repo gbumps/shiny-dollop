@@ -13,19 +13,20 @@ import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.List;
 
 
 /**
- *
+ *	
  * @author stephen
  */
 public class DBUtils implements Serializable {
-	private Connection con;
-	private PreparedStatement p;
-	private ResultSet rs;
+	private static Connection con;
+	private static PreparedStatement p;
+	private static ResultSet rs;
 	
-	 public void insertDataCrawledToDB(List<ProductItem> productItems) throws Exception{
+	 public static void insertDataCrawledToDB(List<ProductItem> productItems) throws Exception{
 			con = ConnectionClass.GetConnection();
 			productItems.forEach(t -> {
 				List images	 = t.getImages().getImage(),
@@ -85,7 +86,7 @@ public class DBUtils implements Serializable {
 			System.out.println("Insert item completed !");
 		}
 	 
-	 public boolean checkProductsCrawled() throws Exception {
+	 public static boolean checkProductsCrawled() throws Exception {
 		 con = ConnectionClass.GetConnection();
 		 p = con.prepareStatement("SELECT TOP 300 * FROM tblProduct");
 		 rs = p.executeQuery();
@@ -98,7 +99,7 @@ public class DBUtils implements Serializable {
 		 else return true;
 	 } 
 	 
-	 public String getDataFromDB(String sql) throws Exception {
+	public static String getDataFromDB(String sql) throws Exception {
 		 String res = "";
 		 con = ConnectionClass.GetConnection();
 		 p = con.prepareStatement(sql);
@@ -108,13 +109,45 @@ public class DBUtils implements Serializable {
 		 }
 		 closeConnection();
 		 return res;
-	 }
+	}
+	
+	public static String getDataFromDBWithCondition(String sql, ArrayList prepareStatements) {
+	  String res = "";
+		try {
+		  con = ConnectionClass.GetConnection();
+			p = con.prepareStatement(sql);
+			for (int i = 0; i < prepareStatements.size();i++) {
+				p.setInt(i + 1, Integer.parseInt(prepareStatements.get(i).toString()));
+			}
+			rs = p.executeQuery();
+			if (rs.next()) {
+				res = rs.getString(1);
+			}
+			closeConnection();
+		} catch(Exception e) {
+			System.out.println("error at getDataFromDB");
+			e.printStackTrace();
+		}
+		return res;
+	}
+	
+	public static Integer countProduct(String sql) throws Exception {
+		int i = 0;
+		con = ConnectionClass.GetConnection();
+		p = con.prepareStatement(sql);
+		rs = p.executeQuery();
+		if (rs.next()) {
+			i = Integer.parseInt(rs.getString(1));
+		}
+		closeConnection();
+		return i;
+	}
 	 
-	private Byte parseByte(boolean b) {
+	private static Byte parseByte(boolean b) {
 		return Byte.parseByte(b ? "1": "0");
 	}
 	 
-	private void closeConnection() throws Exception{
+	private static void closeConnection() throws Exception{
 		if (rs != null) {
 			rs.close();
 		}

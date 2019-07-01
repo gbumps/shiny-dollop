@@ -4,9 +4,25 @@
         <servlet-name>HomePageServlet</servlet-name>
         <servlet-class>com.webapp.servlet.HomePageServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>NavigateServlet</servlet-name>
+        <servlet-class>com.webapp.servlet.NavigateServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SuggestionServlet</servlet-name>
+        <servlet-class>com.webapp.servlet.SuggestionServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomePageServlet</servlet-name>
         <url-pattern>/HomePageServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>NavigateServlet</servlet-name>
+        <url-pattern>/NavigateServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SuggestionServlet</servlet-name>
+        <url-pattern>/SuggestionServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
