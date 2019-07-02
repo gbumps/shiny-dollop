@@ -111,14 +111,11 @@ public class DBUtils implements Serializable {
 		 return res;
 	}
 	
-	public static String getDataFromDBWithCondition(String sql, ArrayList prepareStatements) {
+	public static String getDataSuggestion(String sql) {
 	  String res = "";
 		try {
 		  con = ConnectionClass.GetConnection();
 			p = con.prepareStatement(sql);
-			for (int i = 0; i < prepareStatements.size();i++) {
-				p.setInt(i + 1, Integer.parseInt(prepareStatements.get(i).toString()));
-			}
 			rs = p.executeQuery();
 			if (rs.next()) {
 				res = rs.getString(1);
@@ -130,6 +127,8 @@ public class DBUtils implements Serializable {
 		}
 		return res;
 	}
+	
+	
 	
 	public static Integer countProduct(String sql) throws Exception {
 		int i = 0;

@@ -32,7 +32,7 @@
                 <option value="0">Nữ</option>
             </select>
             <p>Tuổi của con bạn là bao nhiêu ?(1 - 14)</p>
-            <select name=yearOld">
+            <select name="yearOld">
                 <option value="1">1</option>
                 <option value="2">2</option>
                 <option value="3">3</option>
@@ -52,7 +52,7 @@
                 <option value="1">Áo</option>
                 <option value="2">Quần</option>
                 <option value="3">Combo</option>
-                <option value="4">Đầm</option>
+                <option value="4">Váy</option>
             </select>
             <p>Bạn mong muốn mức giá bao nhiêu ?</p>
             <select name="desirePrice">

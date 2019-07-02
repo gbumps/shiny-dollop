@@ -5,8 +5,11 @@
  */
 package com.webapp.servlet;
 
+import com.webapp.settings.Constants;
+import com.webapp.util.DBUtils;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -35,13 +38,62 @@ public class SuggestionServlet extends HttpServlet {
 			String yearOld = request.getParameter("yearOld"),
 						 sex = request.getParameter("sex"),
 						 type = request.getParameter("type"),
-						 priceOption = request.getParameter("desirePrice");					
-			
+						 priceOption = request.getParameter("desirePrice");
+			System.out.println("sex: " + sex);
+			System.out.println("yearold: " + yearOld);
+			System.out.println("type: " + type);
+			ArrayList priceBetween = returnPriceInBetween(priceOption);
+			String res = DBUtils.getDataSuggestion(Constants.returnSqlSuggestionString("%" + yearOld + "Y%", returnType(type), Integer.parseInt(sex), (Integer) priceBetween.get(0), (Integer) priceBetween.get(1)) + Constants.returnDBXMLRoot(Constants.PRODUCTS, Constants.PRODUCT));
+			System.out.println("res from db: " + res);
+			request.getRequestDispatcher("suggestionpage.jsp").forward(request, response);
 		} catch(Exception ex) {
-			
+			System.out.println("error at suggestion servlet");
+			ex.printStackTrace();
 		}
 	}
+	
+	private String returnType(String type) throws Exception {
+		int i = Integer.parseInt(type);
+		String res = "";
+		//System.out.println("type: " + i);
+		switch (i) {
+			case 1:
+				res = "N'Áo'";
+				break;
+			case 2:
+				res = "N'Quần'";
+				break;
+			case 3:
+				res = "N'Đồ', N'Bộ', N'Set'";
+				break;
+			case 4:
+				res = "N'Váy', N'Đầm'";
+				break;
+		}
+		System.out.println("res: " + res);
+		return res;
+	}
 
+	private ArrayList returnPriceInBetween(String priceOption) throws Exception {
+		int i = Integer.parseInt(priceOption);
+		//System.out.println("price: " + i);
+		ArrayList res = new ArrayList();
+		switch (i) {
+			case 1:
+				res.add(0);
+				res.add(500000);
+				break;
+			case 2:
+				res.add(500000);
+				res.add(1000000);
+				break;
+			case 3:
+			  res.add(1000000);
+				res.add(1600000);
+				break;
+		}
+		return res;
+	}
 	// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
 	/**
 	 * Handles the HTTP <code>GET</code> method.
