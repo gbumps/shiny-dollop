@@ -22,8 +22,8 @@
               <xsl:variable name="container" select="main[@class='padding-top-mobile']/div[@class='container']/div/div" />
               <xsl:variable name="info" select="$container/div[1]/div[2]"/>
               <xsl:variable name="images" select="$container/div[1]/div[1]/div/div/div[@class='col-lg-3 col-lg-pull-9 col-md-12 col-sm-12 col-xs-12']/div/ul"/>
-              <xsl:variable name="sale" select="$info/span[@class='product-price  hidden-xs']/del"/>
-              <xsl:variable name="price" select="$info/div[@class='product-price  hidden-xs']/span"/>
+              <xsl:variable name="sale" select="$info/span[@class='product-price  hidden-xs']/del/text()"/>
+              <xsl:variable name="price" select="$info/div[@class='product-price  hidden-xs']/span/text()"/>
               <xsl:variable name="price1" select="translate($price,'₫','')"/>
               <xsl:variable name="price2" select="translate($price1,',','')"/>
               <xsl:variable name="link" select="link/@href"/>
@@ -39,8 +39,8 @@
                 </name>
                 <sale>
                     <xsl:choose>
-                        <xsl:when test="$sale != ''">true</xsl:when>
-                        <xsl:otherwise>false</xsl:otherwise>
+                        <xsl:when test="$sale=''">false</xsl:when>
+                        <xsl:otherwise>true</xsl:otherwise>
                     </xsl:choose>
                 </sale>
                 <price>
@@ -48,13 +48,13 @@
                 </price>
                 <oldprice>
                     <xsl:choose>
-                        <xsl:when test="$sale != ''">
+                        <xsl:when test="$sale=''">
+                            <xsl:value-of select="number($price2)"/>
+                        </xsl:when>
+                        <xsl:otherwise>
                             <xsl:variable name="sale1" select="translate($sale,'₫','')"/>
                             <xsl:variable name="sale2" select="translate($sale1,',','')"/>
                             <xsl:value-of select="number($sale2)"/>
-                        </xsl:when>
-                        <xsl:otherwise>
-                            <xsl:value-of select="number($price2)"/>
                         </xsl:otherwise>
                     </xsl:choose>
                 </oldprice>

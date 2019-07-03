@@ -23,16 +23,13 @@
               <xsl:variable name="info" select="$container/div[@class='product-info']/div[@class='inner']/div[1]"/>
               <xsl:variable name="images" select="$container/div[@class='product-gallery ']/div[@class='gallery-thumbs']"/>
               <xsl:variable name="options" select="$container/div[@class='product-info']/div[@class='inner']/form[@class='product-form']/div[@class='productoptions section']/div[1]/select[@class='original-selector']"/>
-              
               <xsl:variable name="price" select="$info/div[@class='pricearea']/span[@class='price theme-money']"/>
               <xsl:variable name="price1" select="translate($price,'₫','')"/>
               <xsl:variable name="price2" select="translate($price1,'.','')"/>
-              
               <xsl:variable name="oldprice" select="$info/div[@class='pricearea']/span[@class='was-price theme-money']"/>
-              
               <xsl:variable name="sale" select="$info/span[@class='productlabel sale']/span"/>
               <xsl:variable name="link" select="link/@href"/>
-              
+               
               <product>
                 <id> 
                     <xsl:value-of select="$info/div[@class='product-classification']/div/span[@class='sku__value']"/>
@@ -91,6 +88,17 @@
                 <description>
                     <xsl:value-of select="//div[@class='descriptionunder reading-container']/p"/>
                 </description>
+                <rating>
+                    <xsl:variable name="rating" select="div[@class='themed-product-reviews-manager reading-container']/div/div/div[1]/div/span[@class='spr-starrating spr-summary-starrating']/meta[@itemprop='ratingValue']/@content"/>
+                    <xsl:choose>
+                        <xsl:when test="$rating=''">
+                            0.0
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:value-of select="$rating"/>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </rating>
               </product>
             </xsl:for-each>
         </products>

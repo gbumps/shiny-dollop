@@ -43,8 +43,13 @@ public class SuggestionServlet extends HttpServlet {
 			System.out.println("yearold: " + yearOld);
 			System.out.println("type: " + type);
 			ArrayList priceBetween = returnPriceInBetween(priceOption);
-			String res = DBUtils.getDataSuggestion(Constants.returnSqlSuggestionString("%" + yearOld + "Y%", returnType(type), Integer.parseInt(sex), (Integer) priceBetween.get(0), (Integer) priceBetween.get(1)) + Constants.returnDBXMLRoot(Constants.PRODUCTS, Constants.PRODUCT));
-			System.out.println("res from db: " + res);
+			ArrayList res = DBUtils.getDataSuggestion(Constants.returnSqlSuggestionString("%" + yearOld + "Y%", returnType(type), Integer.parseInt(sex), (Integer) priceBetween.get(0), (Integer) priceBetween.get(1)));
+//			JAXBContext jaxb = JAXBContext.newInstance(Constants.PACKAGE_JAXB);
+//			Unmarshaller unmarshaller = jaxb.createUnmarshaller();
+//			Products products = (Products) unmarshaller.unmarshal(new StringReader(res));
+//		  products.getProduct().forEach(t -> { 
+//				System.out.println("id: " + t.getId());
+//			});
 			request.getRequestDispatcher("suggestionpage.jsp").forward(request, response);
 		} catch(Exception ex) {
 			System.out.println("error at suggestion servlet");
@@ -94,6 +99,7 @@ public class SuggestionServlet extends HttpServlet {
 		}
 		return res;
 	}
+	
 	// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
 	/**
 	 * Handles the HTTP <code>GET</code> method.

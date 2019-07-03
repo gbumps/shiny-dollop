@@ -6,6 +6,7 @@
 package com.webapp.util;
 
 
+import com.webapp.dto.SuggestionDTO;
 import com.webapp.settings.ConnectionClass;
 import com.webapp.jaxb.ProductItem;
 import com.webapp.settings.Constants;
@@ -111,14 +112,17 @@ public class DBUtils implements Serializable {
 		 return res;
 	}
 	
-	public static String getDataSuggestion(String sql) {
-	  String res = "";
+	public static ArrayList<SuggestionDTO> getDataSuggestion(String sql) {
+	  ArrayList<SuggestionDTO> res = new ArrayList<>();
 		try {
 		  con = ConnectionClass.GetConnection();
 			p = con.prepareStatement(sql);
 			rs = p.executeQuery();
-			if (rs.next()) {
-				res = rs.getString(1);
+			while (rs.next()) {
+			  System.out.println("id: " + rs.getString(1));
+				System.out.println("name: " + rs.getString(2));
+				System.out.println("price: " + rs.getString(3));
+				System.out.println("type: " + rs.getString(4));
 			}
 			closeConnection();
 		} catch(Exception e) {

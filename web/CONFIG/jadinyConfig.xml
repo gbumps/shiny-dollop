@@ -10,7 +10,7 @@ and open the template in the editor.
     <startelement>&lt;div class=&quot;blocklayout &quot;&gt;</startelement>
     <endelement>&lt;div class=&quot;row hidden hidden-pagination&quot;&gt;</endelement>
     <startelementdetail>&lt;div class=&quot;product-container cf&quot;&gt;</startelementdetail>
-    <endelementdetail>&lt;div class=&quot;themed-product-reviews-manager reading-container&quot;&gt;</endelementdetail>
+    <endelementdetail>&lt;div class=&quot;related-products&quot;&gt;</endelementdetail>
     <pages>6</pages>
     <boy>https://jadiny.vn/collections/be-trai?page=</boy>
     <girl>https://jadiny.vn/collections/be-gai?page=</girl>

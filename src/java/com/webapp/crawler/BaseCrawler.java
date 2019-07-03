@@ -81,7 +81,7 @@ public class BaseCrawler {
 		this.xmlOutputDetailFile = xmlOutputDetailFile;
 	}
 
-  private String getHtmlDocsBody(String urlString, String startElement, String endElement) throws MalformedURLException, IOException {
+  public String getHtmlDocsBody(String urlString, String startElement, String endElement) throws MalformedURLException, IOException {
 			String document = "";
 			URL url = new URL(urlString);
 			URLConnection connection = url.openConnection() ;
