@@ -5,6 +5,7 @@
  */
 package com.webapp.servlet;
 
+import com.webapp.settings.Constants;
 import com.webapp.util.DBUtils;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -37,26 +38,7 @@ public class HomePageServlet extends HttpServlet {
 					throws ServletException, IOException {
 		response.setContentType("text/html;charset=UTF-8");
 		try (PrintWriter out = response.getWriter()) {
-//			String sqlComboBoy = SELECT + CONDITION + Constants.returnDBXMLRoot(Constants.PRODUCTS,Constants.PRODUCT),
-//						 sqlComboGirl = SELECT + CONDITION + Constants.returnDBXMLRoot(Constants.PRODUCTS, Constants.PRODUCT),
-//						 sqlNumberGirl = "SELECT COUNT(p.ID) FROM tblProduct p WHERE p.Sex = 0 AND p.Type IN (N)",
-//						 sqlNumberBoy = "SELECT COUNT(p.ID) FROM tblProduct p WHERE p.Sex = 1 AND p.Type IN ()",		
-			//DBUtils db = new DBUtils();
-//			ArrayList boyPrepareStatement = new ArrayList();
-//			boyPrepareStatement.add(1);
-//			ArrayList girlPrepareStatement = new ArrayList();
-//			girlPrepareStatement.add(0);
-//			request.setAttribute("ItemShirtBoy", DBUtils.getDataFromDBWithCondition(returnSqlString("N'Áo'"), boyPrepareStatement));
-//			request.setAttribute("ItemShirtGirl", DBUtils.getDataFromDBWithCondition(returnSqlString("N'Áo'"), girlPrepareStatement));
-//			request.setAttribute("ItemPantsBoy", DBUtils.getDataFromDBWithCondition(returnSqlString("N'Quần'"), boyPrepareStatement));
-//			request.setAttribute("ItemPantsGirl", DBUtils.getDataFromDBWithCondition(returnSqlString("N'Quần'"), girlPrepareStatement));
-//			request.setAttribute("ItemComboBoy", DBUtils.getDataFromDBWithCondition(returnSqlString("N'Đồ', N'Bộ', N'Set'"), boyPrepareStatement));
-//			request.setAttribute("ItemComboGirl", DBUtils.getDataFromDBWithCondition(returnSqlString("N'Đồ', N'Bộ', N'Set'"), girlPrepareStatement));
-//			request.setAttribute("ItemDressGirl", DBUtils.getDataFromDBWithCondition(returnSqlString("N'Váy'"), girlPrepareStatement));
 				request.setAttribute("HomepageResult", DBUtils.getDataFromDB(returnSqlString()));
-//			request.setAttribute("NumberProductListBoyCombo", db.countProduct(sqlNumberGirl));
-//			request.setAttribute("ProductListGirlCombo", db.getDataFromDBWithCondition(sqlComboGirl,girlPrepareStatement));
-//			request.setAttribute("NumberProductListGirlCombo", db.countProduct(sqlNumberBoy));
 			request.getRequestDispatcher("homepage.jsp").forward(request, response);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -76,7 +58,7 @@ public class HomePageServlet extends HttpServlet {
 "UNION ALL " +
 "SELECT * FROM (SELECT Top 1 ID, Sex, Type, (SELECT ImageLink FROM tblProductImage i WHERE p.ID = OfProductID FOR XML PATH (''), ROOT ('Images'), TYPE) AS Images FROM tblProduct p WHERE Type IN (N'Quần') AND Sex = 0) AS tbl(ID, Sex, Type, Images) " +
 "UNION ALL " +
-"SELECT * FROM (SELECT Top 1 ID, Sex, Type, (SELECT ImageLink FROM tblProductImage i WHERE p.ID = OfProductID FOR XML PATH (''), ROOT ('Images'), TYPE) AS Images FROM tblProduct p WHERE Type IN (N'Váy') AND Sex = 0) AS tbl(ID, Sex, Type, Images) FOR XML PATH ('Product'), ROOT ('Products'), TYPE";
+"SELECT * FROM (SELECT Top 1 ID, Sex, Type, (SELECT ImageLink FROM tblProductImage i WHERE p.ID = OfProductID FOR XML PATH (''), ROOT ('Images'), TYPE) AS Images FROM tblProduct p WHERE Type IN (N'Váy') AND Sex = 0) AS tbl(ID, Sex, Type, Images)" + Constants.returnDBXMLRoot(Constants.PRODUCTS, Constants.PRODUCT);
 	}
 	// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
 	/**

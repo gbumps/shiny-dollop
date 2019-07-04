@@ -91,7 +91,7 @@
                 <rating>
                     <xsl:variable name="rating" select="div[@class='themed-product-reviews-manager reading-container']/div/div/div[1]/div/span[@class='spr-starrating spr-summary-starrating']/meta[@itemprop='ratingValue']/@content"/>
                     <xsl:choose>
-                        <xsl:when test="$rating=''">
+                        <xsl:when test="not($rating)'">
                             0.0
                         </xsl:when>
                         <xsl:otherwise>
@@ -99,6 +99,17 @@
                         </xsl:otherwise>
                     </xsl:choose>
                 </rating>
+                <review>
+                    <xsl:variable name="review" select="div[@class='themed-product-reviews-manager reading-container']/div/div/div[1]/div/span[@class='spr-starrating spr-summary-starrating']/meta[@itemprop='reviewCount']/@content"/>
+                    <xsl:choose>
+                        <xsl:when test="not($review)'">
+                            0
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:value-of select="$review"/>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </review>
               </product>
             </xsl:for-each>
         </products>

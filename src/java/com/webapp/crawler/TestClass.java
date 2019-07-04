@@ -24,13 +24,14 @@ public class TestClass extends BaseCrawler{
 	public static void main(String[] args) {
 		//JDNCrawler jdnc = new JDNCrawler("Jadiny");
 		//jdnc.start();
-		//BLKCrawler bxsc = new BLKCrawler("BlueKids");
+		//BLKCrawler bxsc = new BLKCrawler("BlueKids", );
 	 // bxsc.start();
 		//System.out.println("Insert item completed !");
 		BaseCrawler b = new BaseCrawler();
 		String document = "";
 		try {
-		    document = b.getHtmlDocsBody("https://jadiny.vn/collections/be-trai/products/ao-sm-be-trai-clt-caro-vang-ast124", "<div class=\"product-container cf\">", "<div class=\"related-products\"");
+		    //document = b.getHtmlDocsBody("https://jadiny.vn/collections/be-trai/products/ao-vest-tay-den-bt-avt013", "<div class=\"product-container cf\">", "<div class=\"related-products\">");
+				document = b.getHtmlDocsBody("https://bluekids.vn/collections/ban-chay-nhat/products/ao-phong-be-trai-hinh-cay-dua-1", "<main class=\"padding-top-mobile\">", "</main>");
 //			URL url = new URL("https://jadiny.vn/collections/be-trai/products/ao-sm-tn-clt-linen-caro-xanh-cam-ast115-bt");
 //			URLConnection connection = url.openConnection() ;
 //			connection.addRequestProperty("User-Agent", Constants.GOOGLE_BOT);

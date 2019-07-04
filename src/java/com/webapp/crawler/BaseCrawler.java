@@ -158,7 +158,6 @@ public class BaseCrawler {
 	} 
 	
 	private void insertToDB() throws Exception {
-		setDocumentConfig();
 		JAXBContext jaxbc = JAXBContext.newInstance(Constants.PACKAGE_JAXB);
 	  Unmarshaller u = jaxbc.createUnmarshaller();
     SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
@@ -167,8 +166,7 @@ public class BaseCrawler {
 	  File f = new File(xmlOutputDetailFile);
 	  Products products  = (Products) u.unmarshal(f);
 		System.out.println(webPageName + "has total: " + products.getProduct().size());
-		DBUtils db = new DBUtils();
-		db.insertDataCrawledToDB(products.getProduct());
+		DBUtils.insertDataCrawledToDB(products.getProduct());
 	} 
 
 }

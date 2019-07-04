@@ -60,6 +60,12 @@
                 <option value="2">500k-1tr</option>
                 <option value="3">1tr-1tr6</option>
             </select>
+            <p>Chọn mức độ ưu tiên theo: (Giá thành rẻ đã bao gồm khuyến mãi)</p>
+            <select name="suggstionOption">
+                <option value="1">Giá thành rẻ - Đánh gía tốt - Nhiều bình luận</option>
+                <option value="2">Đánh gía tốt - Giá thành rẻ - Nhiều bình luận</option>
+                <option value="3">Nhiều bình luận - Đánh giá tốt - Giá thành rẻ</option>
+            </select>
             <input type="submit" value="Suggest" />
         </form>
     </body>

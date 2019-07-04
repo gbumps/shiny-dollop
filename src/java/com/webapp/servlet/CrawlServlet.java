@@ -40,8 +40,7 @@ public class CrawlServlet extends HttpServlet {
 			/* TODO output your page here. You may use following sample code. */
 		  String contextPath = getServletContext().getRealPath("/");
 			//System.out.println("context: " + contextPath);
-			DBUtils db = new DBUtils();
-			if (db.checkProductsCrawled()) {
+			if (DBUtils.checkProductsCrawled()) {
 				request.setAttribute("CRAWL_STATUS", "Products has already been crawled, go to homepage instead !");
 			}
 		  else {

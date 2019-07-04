@@ -48,11 +48,7 @@ public class Constants {
 	public static final String NO_DESCRIPTION = "Không có mô tả";
 	
 	public static String returnDBXMLRoot(String root, String item) {
-		return "FOR XML PATH ('" + item + "'), ROOT ('" + root + "'), TYPE";
+		return " FOR XML PATH ('" + item + "'), ROOT ('" + root + "'), TYPE";
 	}
-	
-	public static String returnSqlSuggestionString(String option, String type, Integer sex, Integer priceFrom, Integer priceTo) {
-		return "SELECT ID, Name, Price, Sex, Type, (SELECT ImageLink FROM tblProductImage WHERE ID = OfProductID FOR XML PATH (''), ROOT ('Images'), TYPE) FROM tblProduct WHERE ID IN (SELECT DISTINCT ID FROM tblProduct WHERE ID IN (SELECT OfProductID FROM tblProductOption WHERE OptionProduct LIKE '" + option + "')) AND Type IN (" + type + ") AND Sex = " + sex + " AND Price BETWEEN " + priceFrom + " AND " + priceTo + " ";
-	}
-	
+
 }

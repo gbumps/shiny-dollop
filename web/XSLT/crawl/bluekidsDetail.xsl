@@ -19,16 +19,14 @@
                   xmlns='http://xml.netbeans.org/schema/product'>
         
             <xsl:for-each select="//product">
-              <xsl:variable name="container" select="main[@class='padding-top-mobile']/div[@class='container']/div/div" />
-              <xsl:variable name="info" select="$container/div[1]/div[2]"/>
-              <xsl:variable name="images" select="$container/div[1]/div[1]/div/div/div[@class='col-lg-3 col-lg-pull-9 col-md-12 col-sm-12 col-xs-12']/div/ul"/>
-              <xsl:variable name="sale" select="$info/span[@class='product-price  hidden-xs']/del/text()"/>
-              <xsl:variable name="price" select="$info/div[@class='product-price  hidden-xs']/span/text()"/>
-              <xsl:variable name="price1" select="translate($price,'₫','')"/>
-              <xsl:variable name="price2" select="translate($price1,',','')"/>
-              <xsl:variable name="link" select="link/@href"/>
-<!--              <xsl:variable name="images" select="$container/div[@class='product-gallery ']/div[@class='gallery-thumbs']"/>
-              <xsl:variable name="options" select="$container/div[@class='product-info']/div[@class='inner']/form[@class='product-form']/div[@class='productoptions section']/div[1]/select[@class='original-selector']"/>-->
+                <xsl:variable name="container" select="main[@class='padding-top-mobile']/div[@class='container']/div/div" />
+                <xsl:variable name="info" select="$container/div[1]/div[2]"/>
+                <xsl:variable name="images" select="$container/div[1]/div[1]/div/div/div[@class='col-lg-3 col-lg-pull-9 col-md-12 col-sm-12 col-xs-12']/div/ul"/>
+                <xsl:variable name="sale" select="$info/div[@class='product-price  hidden-xs']/del"/>
+                <xsl:variable name="price" select="$info/div[@class='product-price  hidden-xs']/span"/>
+                <xsl:variable name="price1" select="translate($price,'₫','')" />
+                <xsl:variable name="price2" select="translate($price1,',','')" />
+                <xsl:variable name="link" select="link/@href"/>
 
               <product>
                 <id> 
@@ -39,7 +37,7 @@
                 </name>
                 <sale>
                     <xsl:choose>
-                        <xsl:when test="$sale=''">false</xsl:when>
+                        <xsl:when test="not($sale)">false</xsl:when>
                         <xsl:otherwise>true</xsl:otherwise>
                     </xsl:choose>
                 </sale>
@@ -48,7 +46,7 @@
                 </price>
                 <oldprice>
                     <xsl:choose>
-                        <xsl:when test="$sale=''">
+                        <xsl:when test="not($sale)">
                             <xsl:value-of select="number($price2)"/>
                         </xsl:when>
                         <xsl:otherwise>
@@ -90,6 +88,8 @@
                         <xsl:value-of select="."/>
                     </xsl:for-each>
                 </description>
+                <rating>0.0</rating>
+                <review>0</review>
               </product>
             </xsl:for-each>
         </products>

@@ -14,6 +14,7 @@ import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,7 +35,7 @@ public class DBUtils implements Serializable {
 						 options = t.getOptions().getOption();
 	
 				try {
-					p = con.prepareStatement("INSERT INTO tblProduct(ID, Name, Sale, Price, OldPrice, Type, Link, Sex, Distributor, Description) VALUES (?,?,?,?,?,?,?,?,?,?)");
+					p = con.prepareStatement("INSERT INTO tblProduct(ID, Name, Sale, Price, OldPrice, Type, Link, Sex, Distributor, Description, Rating, Review) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)");
 					if (!t.getId().equals("")) {
 						p.setString(1, t.getId());
 						p.setString(2, t.getName());
@@ -46,6 +47,8 @@ public class DBUtils implements Serializable {
 						p.setByte(8, parseByte(t.isSex()));
 						p.setString(9, t.getDistributor());
 						p.setString(10, t.getDescription().equals("") ? Constants.NO_DESCRIPTION : t.getDescription());
+					  p.setFloat(11, t.getRating());
+						p.setInt(12, t.getReview().intValue());
 						p.executeUpdate();
 					}
 				
@@ -112,17 +115,14 @@ public class DBUtils implements Serializable {
 		 return res;
 	}
 	
-	public static ArrayList<SuggestionDTO> getDataSuggestion(String sql) {
-	  ArrayList<SuggestionDTO> res = new ArrayList<>();
+	public static String getDataSuggestion(String sql) {
+    String res = "";
 		try {
 		  con = ConnectionClass.GetConnection();
 			p = con.prepareStatement(sql);
 			rs = p.executeQuery();
-			while (rs.next()) {
-			  System.out.println("id: " + rs.getString(1));
-				System.out.println("name: " + rs.getString(2));
-				System.out.println("price: " + rs.getString(3));
-				System.out.println("type: " + rs.getString(4));
+			if (rs.next()) {
+				res = rs.getString(1);
 			}
 			closeConnection();
 		} catch(Exception e) {
@@ -131,8 +131,6 @@ public class DBUtils implements Serializable {
 		}
 		return res;
 	}
-	
-	
 	
 	public static Integer countProduct(String sql) throws Exception {
 		int i = 0;

@@ -38,18 +38,21 @@ public class SuggestionServlet extends HttpServlet {
 			String yearOld = request.getParameter("yearOld"),
 						 sex = request.getParameter("sex"),
 						 type = request.getParameter("type"),
-						 priceOption = request.getParameter("desirePrice");
+						 priceOption = request.getParameter("desirePrice"), 
+						 suggestionOption = request.getParameter("suggestionOption");
 			System.out.println("sex: " + sex);
 			System.out.println("yearold: " + yearOld);
 			System.out.println("type: " + type);
 			ArrayList priceBetween = returnPriceInBetween(priceOption);
-			ArrayList res = DBUtils.getDataSuggestion(Constants.returnSqlSuggestionString("%" + yearOld + "Y%", returnType(type), Integer.parseInt(sex), (Integer) priceBetween.get(0), (Integer) priceBetween.get(1)));
-//			JAXBContext jaxb = JAXBContext.newInstance(Constants.PACKAGE_JAXB);
-//			Unmarshaller unmarshaller = jaxb.createUnmarshaller();
-//			Products products = (Products) unmarshaller.unmarshal(new StringReader(res));
-//		  products.getProduct().forEach(t -> { 
-//				System.out.println("id: " + t.getId());
-//			});
+			String res = DBUtils.getDataSuggestion(
+							returnSqlSuggestionString(
+											"%" + yearOld + "%", returnType(type), 
+											Integer.parseInt(sex), 
+											(Integer) priceBetween.get(0), 
+											(Integer) priceBetween.get(1),
+											returnSuggestionOption(suggestionOption))
+		  );
+			request.setAttribute("DATA", res);
 			request.getRequestDispatcher("suggestionpage.jsp").forward(request, response);
 		} catch(Exception ex) {
 			System.out.println("error at suggestion servlet");
@@ -79,6 +82,29 @@ public class SuggestionServlet extends HttpServlet {
 		return res;
 	}
 
+	private String returnSuggestionOption(String sOption) throws Exception {
+		int i = Integer.parseInt(sOption);
+		String res = "";
+		//System.out.println("type: " + i);
+		switch (i) {
+			case 1:
+				res = "3 ASC, 6 DESC, 7 DESC";
+				break;
+			case 2:
+				res = "6 DESC, 3 ASC, 7 DESC";
+				break;
+			case 3:
+				res = "7 DESC, 6 DESC, 3 ASC";
+				break;
+		}
+		//System.out.println("res: " + res);
+		return res;
+	}
+	
+	private String returnSqlSuggestionString(String option, String type, Integer sex, Integer priceFrom, Integer priceTo, String suggestionOption) {
+		return "SELECT TOP 20 ID, Name, Price, OldPrice, Sale, Rating, Review, (SELECT ImageLink FROM tblProductImage WHERE ID = OfProductID FOR XML PATH (''), ROOT ('Images'), TYPE) FROM tblProduct WHERE ID IN (SELECT DISTINCT ID FROM tblProduct WHERE ID IN (SELECT OfProductID FROM tblProductOption WHERE OptionProduct LIKE '" + option + "')) AND Type IN (" + type + ") AND Sex = " + sex + " AND Price BETWEEN " + priceFrom + " AND " + priceTo + " ORDER BY " + suggestionOption + Constants.returnDBXMLRoot(Constants.PRODUCTS, Constants.PRODUCT);
+	}
+	
 	private ArrayList returnPriceInBetween(String priceOption) throws Exception {
 		int i = Integer.parseInt(priceOption);
 		//System.out.println("price: " + i);
