@@ -21,29 +21,14 @@
         <xsl:for-each select="//Product">
             <xsl:variable name="Price" select="Price"/>
             <xsl:variable name="ID" select="ID"/>
-            <DIV class="productItem">
-                <DIV class="productImageSlide-container">
-                    <xsl:for-each select="Images/ImageLink">
-                        <DIV class="mySlides fade {$ID}">    
-                            <xsl:variable name="image" select="."/>
-                            <IMG src="{$image}" style="width:170px; height:200px"/>
-                        </DIV>
-                    </xsl:for-each>
-                    <A class="prev" onclick="plusSlides(-1,{$ID})">&#10094;</A>
-                    <A class="next" onclick="plusSlides(1,{$ID})">&#10095;</A>
+            <DIV class="product-item">
+                <DIV class="image-slide-container">
+                    <DIV class="mySlides fade {$ID}">    
+                        <xsl:variable name="image" select="Images"/>
+                        <IMG src="{$image}" style="width:185px; height:220px"/>
+                    </DIV>
                 </DIV>
-                <BR/>
-                <DIV style="text-align:center">
-<!--                    <xsl:param name="index" select="1" />
-                    <xsl:param name="total" select="count(//Images/ImageLink)" />
-                    <xsl:if test="not($index = $total)">
-                        <xsl:call-template name="repeatable">
-                            <xsl:with-param name="index" select="$index + 1"/>
-                            <SPAN class="dot" onclick="currentSlide({$index})"/>
-                        </xsl:call-template>
-                    </xsl:if>-->
-                </DIV>
-                <DIV class="productInfo">
+                <DIV class="product-info">
                     <DIV class="Name">
                         <xsl:value-of select="Name"/>
                     </DIV>

@@ -12,6 +12,10 @@
         <servlet-name>SuggestionServlet</servlet-name>
         <servlet-class>com.webapp.servlet.SuggestionServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>GetProductByTypeServlet</servlet-name>
+        <servlet-class>com.webapp.servlet.GetProductByTypeServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomePageServlet</servlet-name>
         <url-pattern>/HomePageServlet</url-pattern>
@@ -23,6 +27,10 @@
     <servlet-mapping>
         <servlet-name>SuggestionServlet</servlet-name>
         <url-pattern>/SuggestionServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GetProductByTypeServlet</servlet-name>
+        <url-pattern>/GetProductByTypeServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

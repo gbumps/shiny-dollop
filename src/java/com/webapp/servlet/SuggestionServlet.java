@@ -52,6 +52,7 @@ public class SuggestionServlet extends HttpServlet {
 											(Integer) priceBetween.get(1),
 											returnSuggestionOption(suggestionOption))
 		  );
+			System.out.println("res: " + res);
 			request.setAttribute("DATA", res);
 			request.getRequestDispatcher("suggestionpage.jsp").forward(request, response);
 		} catch(Exception ex) {

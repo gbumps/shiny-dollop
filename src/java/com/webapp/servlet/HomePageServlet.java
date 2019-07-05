@@ -22,7 +22,7 @@ public class HomePageServlet extends HttpServlet {
 
 //	private static final String CONDITION = " WHERE p.Sex = ? AND p.Type IN (N'Đồ', N'Bộ', N'Set')";
 //	
-//	private static final String SELECT = "SELECT TOP 10 p.ID, p.Name, p.Price, p.OldPrice, (SELECT ImageLink FROM tblProductImage WHERE p.ID = OfProductID " + Constants.returnDBXMLRoot("Images", "") + ") FROM tblProduct p";
+//	private static final String SELECT = "SELECT TOP 10 p.ID, p.Name, p.Price, p.OldPrice, (SELECT TOP 1 ImageLink FROM tblProductImage WHERE p.ID = OfProductID " + Constants.returnDBXMLRoot("Images", "") + ") FROM tblProduct p";
 	
 	/**
 	 * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -46,19 +46,19 @@ public class HomePageServlet extends HttpServlet {
 	}
 
 	private String returnSqlString() {
-		return "SELECT * FROM (SELECT Top 1 ID, Sex, Type, (SELECT ImageLink FROM tblProductImage i WHERE p.ID = OfProductID FOR XML PATH (''), ROOT ('Images'), TYPE) AS Images FROM tblProduct p WHERE Type IN (N'Đồ', N'Bộ', N'Set') AND Sex = 0) AS tbl(ID, Sex, Type, Images) " +
+		return "SELECT * FROM (SELECT Top 1 ID, Sex, Type, (SELECT TOP 1 ImageLink FROM tblProductImage i WHERE p.ID = OfProductID) FROM tblProduct p WHERE Type IN (N'Đồ', N'Bộ', N'Set') AND Sex = 0) AS tbl(ID, Sex, Type, Images) " +
 "UNION ALL " +
-"SELECT * FROM (SELECT Top 1 ID, Sex, Type, (SELECT ImageLink FROM tblProductImage i WHERE p.ID = OfProductID FOR XML PATH (''), ROOT ('Images'), TYPE) AS Images FROM tblProduct p WHERE Type IN (N'Đồ', N'Bộ', N'Set') AND Sex = 1) AS tbl(ID, Sex, Type, Images) " +
+"SELECT * FROM (SELECT Top 1 ID, Sex, Type, (SELECT TOP 1 ImageLink FROM tblProductImage i WHERE p.ID = OfProductID) FROM tblProduct p WHERE Type IN (N'Đồ', N'Bộ', N'Set') AND Sex = 1) AS tbl(ID, Sex, Type, Images) " +
 "UNION ALL " +
-"SELECT * FROM (SELECT Top 1 ID, Sex, Type, (SELECT ImageLink FROM tblProductImage i WHERE p.ID = OfProductID FOR XML PATH (''), ROOT ('Images'), TYPE) AS Images FROM tblProduct p WHERE Type IN (N'Áo') AND Sex = 1) AS tbl(ID, Sex, Type, Images) " +
+"SELECT * FROM (SELECT Top 1 ID, Sex, Type, (SELECT TOP 1 ImageLink FROM tblProductImage i WHERE p.ID = OfProductID) FROM tblProduct p WHERE Type IN (N'Áo') AND Sex = 1) AS tbl(ID, Sex, Type, Images) " +
 "UNION ALL " +
-"SELECT * FROM (SELECT Top 1 ID, Sex, Type, (SELECT ImageLink FROM tblProductImage i WHERE p.ID = OfProductID FOR XML PATH (''), ROOT ('Images'), TYPE) AS Images FROM tblProduct p WHERE Type IN (N'Áo') AND Sex = 0) AS tbl(ID, Sex, Type, Images) " +
+"SELECT * FROM (SELECT Top 1 ID, Sex, Type, (SELECT TOP 1 ImageLink FROM tblProductImage i WHERE p.ID = OfProductID) FROM tblProduct p WHERE Type IN (N'Áo') AND Sex = 0) AS tbl(ID, Sex, Type, Images) " +
 "UNION ALL " +
-"SELECT * FROM (SELECT Top 1 ID, Sex, Type, (SELECT ImageLink FROM tblProductImage i WHERE p.ID = OfProductID FOR XML PATH (''), ROOT ('Images'), TYPE) AS Images FROM tblProduct p WHERE Type IN (N'Quần') AND Sex = 1) AS tbl(ID, Sex, Type, Images) " +
+"SELECT * FROM (SELECT Top 1 ID, Sex, Type, (SELECT TOP 1 ImageLink FROM tblProductImage i WHERE p.ID = OfProductID) FROM tblProduct p WHERE Type IN (N'Quần') AND Sex = 1) AS tbl(ID, Sex, Type, Images) " +
 "UNION ALL " +
-"SELECT * FROM (SELECT Top 1 ID, Sex, Type, (SELECT ImageLink FROM tblProductImage i WHERE p.ID = OfProductID FOR XML PATH (''), ROOT ('Images'), TYPE) AS Images FROM tblProduct p WHERE Type IN (N'Quần') AND Sex = 0) AS tbl(ID, Sex, Type, Images) " +
+"SELECT * FROM (SELECT Top 1 ID, Sex, Type, (SELECT TOP 1 ImageLink FROM tblProductImage i WHERE p.ID = OfProductID) FROM tblProduct p WHERE Type IN (N'Quần') AND Sex = 0) AS tbl(ID, Sex, Type, Images) " +
 "UNION ALL " +
-"SELECT * FROM (SELECT Top 1 ID, Sex, Type, (SELECT ImageLink FROM tblProductImage i WHERE p.ID = OfProductID FOR XML PATH (''), ROOT ('Images'), TYPE) AS Images FROM tblProduct p WHERE Type IN (N'Váy') AND Sex = 0) AS tbl(ID, Sex, Type, Images)" + Constants.returnDBXMLRoot(Constants.PRODUCTS, Constants.PRODUCT);
+"SELECT * FROM (SELECT Top 1 ID, Sex, Type, (SELECT TOP 1 ImageLink FROM tblProductImage i WHERE p.ID = OfProductID) FROM tblProduct p WHERE Type IN (N'Váy') AND Sex = 0) AS tbl(ID, Sex, Type, Images)" + Constants.returnDBXMLRoot(Constants.PRODUCTS, Constants.PRODUCT);
 	}
 	// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
 	/**
