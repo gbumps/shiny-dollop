@@ -126,3 +126,8 @@ body {
     border: 1px solid #ccc;
   }
 }
+
+.product-count .product-medium-price {
+  letter-spacing: 4px;
+  font-weight: 400
+}

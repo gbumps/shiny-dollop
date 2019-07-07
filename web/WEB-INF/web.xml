@@ -16,6 +16,10 @@
         <servlet-name>GetProductByTypeServlet</servlet-name>
         <servlet-class>com.webapp.servlet.GetProductByTypeServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ProductDetailServlet</servlet-name>
+        <servlet-class>com.webapp.servlet.ProductDetailServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomePageServlet</servlet-name>
         <url-pattern>/HomePageServlet</url-pattern>
@@ -31,6 +35,10 @@
     <servlet-mapping>
         <servlet-name>GetProductByTypeServlet</servlet-name>
         <url-pattern>/GetProductByTypeServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProductDetailServlet</servlet-name>
+        <url-pattern>/ProductDetailServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -36,10 +36,15 @@
                                    <div class="product-item-image-hover" style="background-image:url('{$image}')"></div>
                                 </a>
                                 <div class="product-item-info">
-                                    <h3> <xsl:value-of select="$Type"/> </h3> 
-                                    <div class="product-description-option">
-                                        
-                                    </div>
+                                    <span class="product-type"> 
+                                        <xsl:value-of select="$Type" />
+                                    </span> 
+                                    <h3 class="product-count">
+                                         <xsl:value-of select="NumberOfProducts" /> sản phẩm
+                                    </h3>
+                                    <span class="product-medium-price">
+                                         Trung bình từ: <xsl:value-of select="AveragePrice" /> VNĐ
+                                    </span>
                                 </div>
                             </div>
                         </xsl:when>
@@ -66,9 +71,15 @@
                                     <div class="product-item-image-hover" style="background-image:url('{$image}')"></div>
                                 </a>
                                 <div class="product-item-info">
-                                    <h3> <xsl:value-of select="$Type"/> </h3> 
-                                    <div class="product-description-option">
-                                    </div>
+                                    <span class="product-type"> 
+                                        <xsl:value-of select="$Type" />
+                                    </span> 
+                                    <h3 class="product-count">
+                                         <xsl:value-of select="NumberOfProducts" /> sản phẩm
+                                    </h3>
+                                    <span class="product-medium-price">
+                                         Trung bình từ: <xsl:value-of select="AveragePrice" /> VNĐ
+                                    </span>
                                 </div>
                             </div>
                         </xsl:when>

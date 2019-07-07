@@ -18,12 +18,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author stephen
  */
-public class HomePageServlet extends HttpServlet {
+public class ProductDetailServlet extends HttpServlet {
 
-//	private static final String CONDITION = " WHERE p.Sex = ? AND p.Type IN (N'Đồ', N'Bộ', N'Set')";
-//	
-//	private static final String SELECT = "SELECT TOP 10 p.ID, p.Name, p.Price, p.OldPrice, (SELECT TOP 1 ImageLink FROM tblProductImage WHERE p.ID = OfProductID " + Constants.returnDBXMLRoot("Images", "") + ") FROM tblProduct p";
-	
 	/**
 	 * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
 	 * methods.
@@ -33,29 +29,23 @@ public class HomePageServlet extends HttpServlet {
 	 * @throws ServletException if a servlet-specific error occurs
 	 * @throws IOException if an I/O error occurs
 	 */
-	
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response)
 					throws ServletException, IOException {
 		response.setContentType("text/html;charset=UTF-8");
 		try (PrintWriter out = response.getWriter()) {
-				request.setAttribute("HomepageResult", DBUtils.getDataFromDB(returnSqlString()));
-			request.getRequestDispatcher("homepage.jsp").forward(request, response);
+			/* TODO output your page here. You may use following sample code. */
+		  	String id = request.getParameter("id"),
+								type = request.getParameter("type");
+				String sql = "SELECT Name, Price, Distributor, Description, Link, (SELECT TOP 1 ImageLink FROM tblProductImage i WHERE p.ID = OfProductID) AS ImageLink FROM tblProduct p WHERE ID = '" + id + "'" +  Constants.returnDBXMLRoot(Constants.PRODUCT, "");
+				String sql1 = "SELECT TOP 5 ID, Name, Price, Type, (SELECT TOP 1 ImageLink FROM tblProductImage i WHERE p.ID = OfProductID) AS Images FROM tblProduct p WHERE Type = N'" + type + "'" +  Constants.returnDBXMLRoot(Constants.PRODUCTS, Constants.PRODUCT);
+				request.setAttribute("PRODUCT_DETAIL", DBUtils.getDataFromDB(sql));
+				request.setAttribute("PRODUCT_RELATED", DBUtils.getDataFromDB(sql1));
+			  request.getRequestDispatcher("productdetail.jsp").forward(request, response);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	private String returnSqlString() {
-		String res = "";
-		String[] types = {"N'Bộ'","N'Áo'","N'Quần'"};
-		for (int i = 0;i < 2; i++) {
-			for (int j = 0;j < types.length;j++) {
-				res += "SELECT * FROM (SELECT TOP 1 ID, Sex, Type, (SELECT TOP 1 ImageLink FROM tblProductImage i WHERE p.ID = OfProductID), (SELECT COUNT(ID) FROM tblProduct p WHERE Type IN (" + types[j] +") AND Sex = " + i + ") AS NumberOfProducts, (SELECT AVG(Price) FROM tblProduct p WHERE Type IN (" + types[j] +") AND Sex = " + i + ") AS AveragePrice FROM tblProduct p WHERE Type IN (" + types[j] +") AND Sex = " + i + ") AS tbl(ID, Sex, Type, Images, NumberOfProducts, AveragePrice)";
-				res += (i == 1 && j == types.length - 1) ? Constants.returnDBXMLRoot(Constants.PRODUCTS, Constants.PRODUCT) : " UNION ALL ";
-			}
-		}
-		return res;
-	}
 	// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
 	/**
 	 * Handles the HTTP <code>GET</code> method.

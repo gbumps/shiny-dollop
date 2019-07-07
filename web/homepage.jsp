@@ -14,6 +14,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0 user-scalable=yes"/>
         <link rel="stylesheet" href="CSS/homepage.css" type="text/css"/>
         <link rel="stylesheet" href="CSS/productItem.css" type="text/css"/>
+        <link rel="stylesheet" href="CSS/hovers.css" type="text/css"/>
         <title>Main Page</title>
     </head>
     <body>
@@ -31,11 +32,11 @@
             </div>
         </div>
         <div class="container">
-          <div class="main">
-            <xm:parse var="resultXML" xml="${result}" scope="request" />
-            <c:if test="${not empty resultXML}">
-                <xm:transform xml="${resultXML}" xslt="${ItemXSL}" />  
-            </c:if>
+            <div class="main">
+                <xm:parse var="resultXML" xml="${result}" scope="request" />
+                <c:if test="${not empty resultXML}">
+                    <xm:transform xml="${resultXML}" xslt="${ItemXSL}" />  
+                </c:if>
             </div>
         </div>
     </body>

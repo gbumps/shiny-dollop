@@ -18,38 +18,31 @@
          <xsl:apply-templates />
     </xsl:template>
     <xsl:template match="Products">
-        <xsl:for-each select="//Product">
-            <xsl:variable name="Price" select="Price"/>
-            <xsl:variable name="ID" select="ID"/>
-            <DIV class="product-item">
-                <DIV class="image-slide-container">
-                    <DIV class="mySlides fade {$ID}">    
-                        <xsl:variable name="image" select="Images"/>
-                        <IMG src="{$image}" style="width:185px; height:220px"/>
-                    </DIV>
-                </DIV>
-                <DIV class="product-info">
-                    <DIV class="Name">
-                        <xsl:value-of select="Name"/>
-                    </DIV>
-                    <DIV class="Price">
-                        <xsl:value-of select="Price"/>
-                    </DIV>
-                    <DIV class="OldPrice">
-                        <xsl:variable name="OldPrice" select="OldPrice"/>
-                        <xsl:choose>
-                            <xsl:when test="$OldPrice != $Price">
-                                <del>
-                                    <xsl:value-of select="$OldPrice"/>
-                                </del>
-                            </xsl:when>
-                            <xsl:otherwise>
-                            
-                            </xsl:otherwise>
-                        </xsl:choose>
-                    </DIV>
-                </DIV>
-            </DIV>
-        </xsl:for-each> 
+        <div class="product-list-item">
+            <div class="container-item">
+                <xsl:for-each select="//Product">
+                    <xsl:variable name="id" select="ID" />
+                    <xsl:variable name="name" select="Name" />
+                    <xsl:variable name="image" select="Images" />
+                    <xsl:variable name="price" select="Price" />
+                    <xsl:variable name="type" select="Type" />
+                    <div class="product-item">
+                        <div class="product-item-image" style="background-image:url('{$image}');">                                         
+                        </div>
+                        <a href="ProductDetailServlet?id={$id}&amp;type={$type}" class="product-link">
+                           <div class="product-item-image-hover" style="background-image:url('{$image}')"></div>
+                        </a>
+                        <div class="product-item-info">
+                            <h3 class="product-title">
+                                <xsl:value-of select="$name" />
+                            </h3>
+                            <span class="product-medium-price">
+                                <xsl:value-of select="$price" />
+                            </span>
+                        </div>
+                    </div>
+                </xsl:for-each> 
+            </div>
+        </div>
     </xsl:template>
 </xsl:stylesheet>

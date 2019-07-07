@@ -4,7 +4,9 @@
     Author     : stephen
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html" pageEncoding="UTF-8" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="xm" uri="http://java.sun.com/jsp/jstl/xml" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -14,6 +16,8 @@
         <title>Sản phẩm theo kiểu</title>
     </head>
     <body>
+        <c:set var="result" value="${requestScope.PRODUCTS_BY_TYPE}" />
+        <c:import var="ProductXSL" url="XSLT/html/Product.xsl" charEncoding="UTF-8" /> 
         <div class="topnav">
             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1" x="0px" y="0px" viewBox="0 0 426.668 426.668" style="enable-background:new 0 0 426.668 426.668;" xml:space="preserve" width="30px" height="30px"><g><path d="M401.788,74.476c-63.492-82.432-188.446-33.792-188.446,49.92  c0-83.712-124.962-132.356-188.463-49.92c-65.63,85.222-0.943,234.509,188.459,320.265  C402.731,308.985,467.418,159.698,401.788,74.476z" data-original="#F05228" class="active-path" data-old_color="#F05228" fill="#FC2E51"/></g> </svg>
             <a href="NavigateServlet?page=homepage"> Trang chủ </a>
@@ -26,7 +30,13 @@
             </div>
         </div>
         <div class="container">
-          
+            <div class="main">
+                <xm:parse var="resultXML" xml="${result}" scope="request" />
+                <c:if test="${not empty resultXML}">
+                    <xm:transform xml="${resultXML}" xslt="${ProductXSL}" />  
+                </c:if>
+                
+            </div>
         </div>
     </body>
 </html>

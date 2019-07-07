@@ -5,6 +5,8 @@
  */
 package com.webapp.servlet;
 
+import com.webapp.settings.Constants;
+import com.webapp.util.DBUtils;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -34,7 +36,11 @@ public class GetProductByTypeServlet extends HttpServlet {
 			/* TODO output your page here. You may use following sample code. */
 				String type = request.getParameter("type"),
 							 sex = request.getParameter("sex");
-				
+				//System.out.println("type: " + type);
+				//System.out.println("sex: " + sex);
+				String sql = "SELECT ID, Name, Price, Type, (SELECT TOP 1 ImageLink FROM tblProductImage i WHERE p.ID = OfProductID) AS Images FROM tblProduct p WHERE Type = N'" + type + "' AND Sex = " + sex + Constants.returnDBXMLRoot(Constants.PRODUCTS, Constants.PRODUCT);
+				String res = DBUtils.getDataFromDB(sql);
+				request.setAttribute("PRODUCTS_BY_TYPE", res);
 			  request.getRequestDispatcher("productsbytype.jsp").forward(request, response);
 		} catch (Exception e) {
 			e.printStackTrace();
