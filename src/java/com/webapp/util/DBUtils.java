@@ -115,23 +115,6 @@ public class DBUtils implements Serializable {
 		 return res;
 	}
 	
-	public static String getDataSuggestion(String sql) {
-    String res = "";
-		try {
-		  con = ConnectionClass.GetConnection();
-			p = con.prepareStatement(sql);
-			rs = p.executeQuery();
-			if (rs.next()) {
-				res = rs.getString(1);
-			}
-			closeConnection();
-		} catch(Exception e) {
-			System.out.println("error at getDataFromDB");
-			e.printStackTrace();
-		}
-		return res;
-	}
-	
 	public static Integer countProduct(String sql) throws Exception {
 		int i = 0;
 		con = ConnectionClass.GetConnection();

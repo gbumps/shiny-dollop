@@ -14,6 +14,7 @@
         <link rel="stylesheet" href="CSS/homepage.css" type="text/css"/>
         <link rel="stylesheet" href="CSS/productDetail.css" type="text/css"/>
         <link rel="stylesheet" href="CSS/productItem.css" type="text/css"/>
+        <link rel="stylesheet" href="CSS/modal.css" type="text/css"/>
         <title>Chi Tiết Sản Phẩm</title>
     </head>
     <body>
@@ -48,5 +49,11 @@
                 </div>
             </div>
         </div>
+        <div id="myModal" class="modal">
+            <div class="modal-content">
+              <span class="close">&times;</span>
+            </div>
+        </div>
     </body>
+    <script type="text/javascript" src="JS/showModal.js"></script>
 </html>

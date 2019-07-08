@@ -44,7 +44,7 @@ public class SuggestionServlet extends HttpServlet {
 			System.out.println("yearold: " + yearOld);
 			System.out.println("type: " + type);
 			ArrayList priceBetween = returnPriceInBetween(priceOption);
-			String res = DBUtils.getDataSuggestion(
+			String res = DBUtils.getDataFromDB(
 							returnSqlSuggestionString(
 											"%" + yearOld + "%", returnType(type), 
 											Integer.parseInt(sex), 
@@ -103,7 +103,7 @@ public class SuggestionServlet extends HttpServlet {
 	}
 	
 	private String returnSqlSuggestionString(String option, String type, Integer sex, Integer priceFrom, Integer priceTo, String suggestionOption) {
-		return "SELECT TOP 20 ID, Name, Price, OldPrice, Sale, Rating, Review, (SELECT ImageLink FROM tblProductImage WHERE ID = OfProductID FOR XML PATH (''), ROOT ('Images'), TYPE) FROM tblProduct WHERE ID IN (SELECT DISTINCT ID FROM tblProduct WHERE ID IN (SELECT OfProductID FROM tblProductOption WHERE OptionProduct LIKE '" + option + "')) AND Type IN (" + type + ") AND Sex = " + sex + " AND Price BETWEEN " + priceFrom + " AND " + priceTo + " ORDER BY " + suggestionOption + Constants.returnDBXMLRoot(Constants.PRODUCTS, Constants.PRODUCT);
+		return "SELECT TOP 20 ID, Name, Price, OldPrice, Sale, Rating, Review, (SELECT TOP 1 ImageLink FROM tblProductImage WHERE ID = OfProductID) AS Images FROM tblProduct WHERE ID IN (SELECT DISTINCT ID FROM tblProduct WHERE ID IN (SELECT OfProductID FROM tblProductOption WHERE OptionProduct LIKE '" + option + "')) AND Type IN (" + type + ") AND Sex = " + sex + " AND Price BETWEEN " + priceFrom + " AND " + priceTo + " ORDER BY " + suggestionOption + Constants.returnDBXMLRoot(Constants.PRODUCTS, Constants.PRODUCT);
 	}
 	
 	private ArrayList returnPriceInBetween(String priceOption) throws Exception {
