@@ -18,12 +18,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author stephen
  */
-public class HomePageServlet extends HttpServlet {
+public class SearchProductServlet extends HttpServlet {
 
-//	private static final String CONDITION = " WHERE p.Sex = ? AND p.Type IN (N'Đồ', N'Bộ', N'Set')";
-//	
-//	private static final String SELECT = "SELECT TOP 10 p.ID, p.Name, p.Price, p.OldPrice, (SELECT TOP 1 ImageLink FROM tblProductImage WHERE p.ID = OfProductID " + Constants.returnDBXMLRoot("Images", "") + ") FROM tblProduct p";
-	
 	/**
 	 * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
 	 * methods.
@@ -33,29 +29,29 @@ public class HomePageServlet extends HttpServlet {
 	 * @throws ServletException if a servlet-specific error occurs
 	 * @throws IOException if an I/O error occurs
 	 */
-	
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response)
 					throws ServletException, IOException {
-		response.setContentType("text/html;charset=UTF-8");
+		//response.setContentType("text/html;charset=UTF-8");
 		try (PrintWriter out = response.getWriter()) {
-				request.setAttribute("HomepageResult", DBUtils.getDataFromDB(returnSqlString()));
-				request.getRequestDispatcher("homepage.jsp").forward(request, response);
+			/* TODO output your page here. You may use following sample code. */
+			String query = request.getParameter("query");
+			System.out.println("Search Servlet at XMLProject_Summer: " + query);
+		  String xml = DBUtils.getDataFromDB("SELECT TOP 7 ID, Type, Name FROM tblProduct WHERE Name LIKE '%" + query + "%'" + Constants.returnDBXMLRoot(Constants.PRODUCTS, Constants.PRODUCT));
+			System.out.println("xml: " + xml);
+			//response.setContentType("application/xml");
+			response.setCharacterEncoding("UTF-8");
+		  if(xml != null) {
+				response.getWriter().write(xml);
+			}
+			else {
+				
+			}
 		} catch (Exception e) {
+			System.out.println("error at search product servlet !");
 			e.printStackTrace();
 		}
 	}
 
-	private String returnSqlString() {
-		String res = "";
-		String[] types = {"N'Bộ'","N'Áo'","N'Quần'"};
-		for (int i = 0;i < 2; i++) {
-			for (int j = 0;j < types.length;j++) {
-				res += "SELECT * FROM (SELECT TOP 1 ID, Sex, Type, (SELECT TOP 1 ImageLink FROM tblProductImage i WHERE p.ID = OfProductID), (SELECT COUNT(ID) FROM tblProduct p WHERE Type IN (" + types[j] +") AND Sex = " + i + ") AS NumberOfProducts, (SELECT AVG(Price) FROM tblProduct p WHERE Type IN (" + types[j] +") AND Sex = " + i + ") AS AveragePrice FROM tblProduct p WHERE Type IN (" + types[j] +") AND Sex = " + i + ") AS tbl(ID, Sex, Type, Images, NumberOfProducts, AveragePrice)";
-				res += (i == 1 && j == types.length - 1) ? Constants.returnDBXMLRoot(Constants.PRODUCTS, Constants.PRODUCT) : " UNION ALL ";
-			}
-		}
-		return res;
-	}
 	// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
 	/**
 	 * Handles the HTTP <code>GET</code> method.

@@ -131,3 +131,23 @@ body {
   letter-spacing: 4px;
   font-weight: 400
 }
+
+.search-result-element {
+  display: inline;
+  margin: 0.5em;
+}
+
+.search-result-element:hover {
+  background: #1da1f2; 
+  color: white;
+}
+
+input:focus {
+  outline-width: 0;
+}
+
+#searchProduct {
+  position: absolute;
+  background: white; 
+  z-index: 999;   
+}

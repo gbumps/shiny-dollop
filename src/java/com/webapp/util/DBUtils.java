@@ -6,7 +6,6 @@
 package com.webapp.util;
 
 
-import com.webapp.dto.SuggestionDTO;
 import com.webapp.settings.ConnectionClass;
 import com.webapp.jaxb.ProductItem;
 import com.webapp.settings.Constants;
@@ -14,8 +13,6 @@ import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.List;
 
 

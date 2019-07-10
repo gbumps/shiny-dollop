@@ -1,9 +1,3 @@
-<%-- 
-    Document   : homepage
-    Created on : Jun 26, 2019, 3:14:30 PM
-    Author     : stephen
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="xm" uri="http://java.sun.com/jsp/jstl/xml" %>
@@ -26,10 +20,9 @@
             <a href="NavigateServlet?page=homepage"> Trang chủ </a>
             <a id="myBtn">Gợi ý sản phẩm</a>
             <div class="search-container">
-                <form action="search" method="POST">
-                    <input class="input-search" type="text" placeholder="Đầm bé gái, áo bé trai,....vv"/>
-                    <button type="submit" value="Tìm"/>
-                </form>
+                <input id="search" type="text" placeholder="Đầm bé gái, áo bé trai,....vv"/>
+                <div id="searchProduct">
+                </div>
             </div>
         </div>
         <div class="container">
@@ -44,51 +37,52 @@
             <div class="modal-content">
                 <span class="close">&times;</span>
                 <h1>Gợi ý</h1>
-                    <form method="POST" action="SuggestionServlet">
-                        <p>Bạn hãy chọn giới tính của con mình</p>
-                        <select name="sex">
-                            <option value="1">Nam</option>
-                            <option value="0">Nữ</option>
-                        </select>
-                        <p>Tuổi của con bạn là bao nhiêu ?(1 - 14)</p>
-                        <select name="yearOld">
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                            <option value="6">6</option>
-                            <option value="7">7</option>
-                            <option value="8">8</option>
-                            <option value="9">9</option>
-                            <option value="10">10</option>
-                            <option value="11">11</option>
-                            <option value="12">12</option>
-                            <option value="13">13</option>
-                        </select>
-                        <p>Bạn muốn chọn loại đồ nào ?</p>
-                        <select name="type">
-                            <option value="1">Áo</option>
-                            <option value="2">Quần</option>
-                            <option value="3">Combo</option>
-                            <option value="4">Váy</option>
-                        </select>
-                        <p>Bạn mong muốn mức giá bao nhiêu ?</p>
-                        <select name="desirePrice">
-                            <option value="1">0-500k</option>
-                            <option value="2">500k-1tr</option>
-                            <option value="3">1tr-1tr6</option>
-                        </select>
-                        <p>Chọn mức độ ưu tiên theo: (Giá thành rẻ đã bao gồm khuyến mãi)</p>
-                        <select name="suggestionOption">
-                            <option value="1">Giá thành rẻ - Đánh gía tốt - Nhiều bình luận</option>
-                            <option value="2">Đánh gía tốt - Giá thành rẻ - Nhiều bình luận</option>
-                            <option value="3">Nhiều bình luận - Đánh giá tốt - Giá thành rẻ</option>
-                        </select>
-                        <input type="submit" value="Suggest" />
-                    </form>
+                <form method="POST" action="SuggestionServlet">
+                    <p>Bạn hãy chọn giới tính của con mình</p>
+                    <select name="sex">
+                        <option value="1">Nam</option>
+                        <option value="0">Nữ</option>
+                    </select>
+                    <p>Tuổi của con bạn là bao nhiêu ?(1 - 14)</p>
+                    <select name="yearOld">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                        <option value="11">11</option>
+                        <option value="12">12</option>
+                        <option value="13">13</option>
+                    </select>
+                    <p>Bạn muốn chọn loại đồ nào ?</p>
+                    <select name="type">
+                        <option value="1">Áo</option>
+                        <option value="2">Quần</option>
+                        <option value="3">Combo</option>
+                        <option value="4">Váy</option>
+                    </select>
+                    <p>Bạn mong muốn mức giá bao nhiêu ?</p>
+                    <select name="desirePrice">
+                        <option value="1">0-500k</option>
+                        <option value="2">500k-1tr</option>
+                        <option value="3">1tr-1tr6</option>
+                    </select>
+                    <p>Chọn mức độ ưu tiên theo: (Giá thành rẻ đã bao gồm khuyến mãi)</p>
+                    <select name="suggestionOption">
+                        <option value="1">Giá thành rẻ - Đánh gía tốt - Nhiều bình luận</option>
+                        <option value="2">Đánh gía tốt - Giá thành rẻ - Nhiều bình luận</option>
+                        <option value="3">Nhiều bình luận - Đánh giá tốt - Giá thành rẻ</option>
+                    </select>
+                    <input type="submit" value="Suggest" />
+                </form>
             </div>
         </div>
     </body>
     <script type="text/javascript" src="JS/showModal.js"></script>
+    <script src="JS/SearchProduct.js" type="text/javascript"></script>
 </html>
