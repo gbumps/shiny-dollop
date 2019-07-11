@@ -1,3 +1,9 @@
+<%-- 
+    Document   : homepage
+    Created on : Jun 26, 2019, 3:14:30 PM
+    Author     : stephen
+--%>
+
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="xm" uri="http://java.sun.com/jsp/jstl/xml" %>
@@ -10,7 +16,7 @@
         <link rel="stylesheet" href="CSS/productItem.css" type="text/css"/>
         <link rel="stylesheet" href="CSS/hovers.css" type="text/css"/>
         <link rel="stylesheet" href="CSS/modal.css" type="text/css"/>
-        <title>Main Page</title>
+        <title>Trang chủ</title>
     </head>
     <body>
         <c:set var="result" value="${requestScope.HomepageResult}" />
@@ -20,7 +26,7 @@
             <a href="NavigateServlet?page=homepage"> Trang chủ </a>
             <a id="myBtn">Gợi ý sản phẩm</a>
             <div class="search-container">
-                <input id="search" type="text" placeholder="Đầm bé gái, áo bé trai,....vv"/>
+                <input id="search" type="text" placeholder="Tìm đầm bé gái, áo bé trai,....vv"/>
                 <div id="searchProduct">
                 </div>
             </div>

@@ -35,8 +35,8 @@ public class ProductDetailServlet extends HttpServlet {
 		try (PrintWriter out = response.getWriter()) {
 			/* TODO output your page here. You may use following sample code. */
 		  	String id = request.getParameter("id"),
-								type = request.getParameter("type");
-				String sql = "SELECT Name, Price, Distributor, Description, Link, (SELECT TOP 1 ImageLink FROM tblProductImage i WHERE p.ID = OfProductID) AS ImageLink FROM tblProduct p WHERE ID = '" + id + "'" +  Constants.returnDBXMLRoot(Constants.PRODUCT, "");
+							 type = request.getParameter("type");
+				String sql = "SELECT Name, Price, Distributor, Description, Link, Rating, Review, (SELECT TOP 1 ImageLink FROM tblProductImage i WHERE p.ID = OfProductID) AS ImageLink FROM tblProduct p WHERE ID = '" + id + "'" +  Constants.returnDBXMLRoot(Constants.PRODUCT, "");
 				String sql1 = "SELECT TOP 5 ID, Name, Price, Type, (SELECT TOP 1 ImageLink FROM tblProductImage i WHERE p.ID = OfProductID) AS Images FROM tblProduct p WHERE Type = N'" + type + "'" +  Constants.returnDBXMLRoot(Constants.PRODUCTS, Constants.PRODUCT);
 				request.setAttribute("PRODUCT_DETAIL", DBUtils.getDataFromDB(sql));
 				request.setAttribute("PRODUCT_RELATED", DBUtils.getDataFromDB(sql1));

@@ -1,79 +1,79 @@
 .product-detail-wrapper {
-    height: 500px;
-    width: 920px;
-    margin: 50px auto;
-    border-radius: 7px 7px 7px 7px;
-    -webkit-box-shadow: 0px 14px 32px 0px rgba(0, 0, 0, 0.15);
-    -moz-box-shadow: 0px 14px 32px 0px rgba(0, 0, 0, 0.15);
-    box-shadow: 0px 14px 32px 0px rgba(0, 0, 0, 0.15);
+  height: 500px;
+  width: 920px;
+  margin: 50px auto;
+  border-radius: 7px 7px 7px 7px;
+  -webkit-box-shadow: 0px 14px 32px 0px rgba(0, 0, 0, 0.15);
+  -moz-box-shadow: 0px 14px 32px 0px rgba(0, 0, 0, 0.15);
+  box-shadow: 0px 14px 32px 0px rgba(0, 0, 0, 0.15);
 }
 
 .product-detail-img {
-    float: left;
-    height: 500px;
-    width: 327px;
+  float: left;
+  height: 500px;
+  width: 327px;
 }
 
 .product-detail-img img {
-    border-radius: 7px 0 0 7px;
+  border-radius: 7px 0 0 7px;
  }
 
 .product-detail-info {
-    float: left;
-    height: 500px;
-    width: 573px;
-    padding-left: 7px;
-    border-radius: 0 7px 10px 7px;
-    background-color: #ffffff;
+  float: left;
+  height: 500px;
+  width: 573px;
+  padding-left: 7px;
+  border-radius: 0 7px 10px 7px;
+  background-color: #ffffff;
 }
 
 .product-info-detail-text {
-    height: 400px;
-    width: 493px;
+  height: 400px;
+  width: 493px;
 }
 
 .product-info-detail-text h1 {
-    margin: 0 0 0 34px;
-    padding-top: 52px;
-    font-size: 34px;
-    color: #474747;
-  }
+  margin: 0 0 0 34px;
+  padding-top: 52px;
+  font-size: 34px;
+  color: #474747;
+}
   
 
 .product-info-detail-text h2 {
-    margin: 0 0 38px 38px;
-    font-size: 15px;
-    font-weight: 400;
-    text-transform: uppercase;
-    color: #d2d2d2;
-    letter-spacing: 0.2em;
+  margin: 0 0 38px 38px;
+  font-size: 15px;
+  font-weight: 400;
+  text-transform: uppercase;
+  color: #d2d2d2;
+  letter-spacing: 0.2em;
 }
   
 .product-info-detail-text p {
-    height: 125px;
-    margin: 0 0 0 38px;
-    color: #8d8d8d;
-    line-height: 1.7em;
-    font-size: 15px;
-    font-weight: 500;
-    overflow: hidden;
+  height: 125px;
+  margin: 0 0 0 38px;
+  color: #8d8d8d;
+  line-height: 1.7em;
+  font-size: 15px;
+  font-weight: 500;
+  overflow: hidden;
 }
 
 .product-detail-price-btn {
-    height: 95px;
-    width: 493px;
-    margin-top: 22px;
-    position: relative;
+  height: 95px;
+  width: 493px;
+  margin-top: 22px;
+  position: relative;
 }
   
 .product-detail-price-btn p {
-    display: inline-block;
-    position: absolute;
-    height: 50px;
-    margin: 0 0 0 38px;
-    font-size: 28px;
-    font-weight: 300;
-    color: #474747;
+  display: inline-block;
+  position: absolute;
+  height: 50px;
+  margin: 0 0 0 38px;
+  font-size: 28px;
+  font-weight: 300;
+  color: #474747;
 }
   
 span {

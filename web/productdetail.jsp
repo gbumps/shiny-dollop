@@ -27,10 +27,9 @@
             <a href="NavigateServlet?page=homepage">Trang chủ</a>
             <a id="myBtn">Gợi ý sản phẩm</a>
             <div class="search-container">
-                <form action="search" method="POST">
-                    <input class="input-search" type="text" placeholder="Đầm bé gái, áo bé trai,....vv"/>
-                    <button type="submit" value="Tìm"/>
-                </form>
+                <input id="search" type="text" placeholder="Tìm đầm bé gái, áo bé trai,....vv"/>
+                <div id="searchProduct">
+                </div>
             </div>
         </div>
         <div class="container">
@@ -100,4 +99,5 @@
         </div>
     </body>
     <script type="text/javascript" src="JS/showModal.js"></script>
+    <script src="JS/SearchProduct.js" type="text/javascript"></script>
 </html>

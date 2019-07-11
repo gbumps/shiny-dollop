@@ -1,16 +1,15 @@
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-let doneTypingInteval = 2000;
-let countTime;
-let searchInput = document.getElementById("search");
-searchInput.addEventListener('keyup', () => {
-    clearTimeout(countTime);
-    if (searchInput.value) {
-        countTime = setTimeout(showProductSearch(searchInput.value),doneTypingInteval);
+var textInputSearch = document.getElementById("search");
+var timeout = null;
+textInputSearch.addEventListener("keyup", (e) => {
+    if (e.keyCode == 13) {
+        window.location.href = "SearchProductServlet"
+    }//Enter 
+    if (textInputSearch.value) {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => {
+            console.log("search value: " + textInputSearch.value)
+            searchProduct(textInputSearch.value);
+        },700)
     }
 })
 
@@ -24,8 +23,8 @@ function getXMLHTTPRequest() {
     return xmlHttp;
 }
 
-function showProductSearch(strSearchValue) {
-    console.log("search: " ,strSearchValue);
+function searchProduct(strSearchValue) {
+    //var strSearchValue = document.getElementById("search").value;
     if (strSearchValue != null) {
         var request = getXMLHTTPRequest();
         var header = getResponseHeader(request, getXMLResponse);
@@ -39,43 +38,36 @@ function showProductSearch(strSearchValue) {
 
 }
 
-function loadXSLDoc(filepath) {
-    var xslHttp;
-    if (window.ActiveXObject) {
-        xslHttp = new ActiveXObject("Msxml2.XMLHTTP");
-    } else {
-        xslHttp = new XMLHttpRequest();
-    }
-    xslHttp.open("GET", filepath, false);
-    try {
-        xslHttp.responseType = "msxml-document"
-    } catch (err) {
-        console.log("err when loading XSL doc: ")
-    }
-    xslHttp.send("");
-    return xslHttp.responseXML;
-}
-
 function getXMLResponse(xmlDoc) {
-    //console.log("xmlDoc on client: " + JSON.stringify(xmlDoc))
     document.getElementById("searchProduct").innerHTML = "";
-    var xsldoc = loadXSLDoc("XSLT/html/ResponsiveSearch.xsl");
-    if (window.ActiveXObject || xsldoc.responseType == "msxml-document") {
-        var e = xmlDoc.transformNode(xsldoc);
-        document.getElementById("searchProduct").innerHTML = e;
-    } else if (document.implementation && document.implementation.createDocument) {
-        var xsltProcessor = new XSLTProcessor();
-        xsltProcessor.importStylesheet(xsldoc);
-        var res = xsltProcessor.transformToFragment(xmlDoc, document);
-        console.log("res: " + res);
-        document.getElementById("searchProduct").appendChild(res);
+    if (xmlDoc) {
+        var parser = new DOMParser();
+        var res    = parser.parseFromString(xmlDoc,"text/xml");
+        var products =  res.documentElement.childNodes; //products
+        for (var i = 0; i < products.length; i++) {
+            var product = products[i].childNodes,
+                id = product[0].childNodes[0].textContent,
+                type = product[1].childNodes[0].textContent,
+                name = product[2].childNodes[0].textContent, // Name tag
+                p = document.createElement('p');
+            p.className = "search-result-element"
+            p.innerHTML = name;
+            p.onclick = () => window.location.href = "ProductDetailServlet?id="+id+"&type="+type;
+            document.getElementById("searchProduct").appendChild(p);
+        }
+    } else {
+        var p = document.createElement('p');
+        
+        p.innerHTML = "Không tìm thấy sản phẩm"
+        document.getElementById("searchProduct").appendChild(p);
     }
 }
 
 function getResponseHeader(request, response) {
     return function () {
         if (request.status == 200 && request.readyState == 4) {
-            response(request.responseXML);
+            console.log("response text: " + request.responseText);
+            response(request.responseText);
         }
     }
 }

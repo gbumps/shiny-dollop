@@ -36,11 +36,11 @@ public class GetProductByTypeServlet extends HttpServlet {
 			/* TODO output your page here. You may use following sample code. */
 				String type = request.getParameter("type"),
 							 sex = request.getParameter("sex");
-				//System.out.println("type: " + type);
-				//System.out.println("sex: " + sex);
 				String sql = "SELECT ID, Name, Price, Type, (SELECT TOP 1 ImageLink FROM tblProductImage i WHERE p.ID = OfProductID) AS Images FROM tblProduct p WHERE Type = N'" + type + "' AND Sex = " + sex + Constants.returnDBXMLRoot(Constants.PRODUCTS, Constants.PRODUCT);
-				String res = DBUtils.getDataFromDB(sql);
+				String res = DBUtils.getDataFromDB(sql),
+							 title = type + (Integer.parseInt(sex) == 1 ? " Bé trai" : " Bé gái");
 				request.setAttribute("PRODUCTS_BY_TYPE", res);
+				request.setAttribute("TYPE", title);
 			  request.getRequestDispatcher("productsbytype.jsp").forward(request, response);
 		} catch (Exception e) {
 			e.printStackTrace();
