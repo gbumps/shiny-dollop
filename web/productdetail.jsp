@@ -27,7 +27,7 @@
             <a href="NavigateServlet?page=homepage">Trang chủ</a>
             <a id="myBtn">Gợi ý sản phẩm</a>
             <div class="search-container">
-                <input id="search" type="text" placeholder="Tìm đầm bé gái, áo bé trai,....vv"/>
+                <input size="450" id="search" type="text" placeholder="Tìm đầm bé gái, áo bé trai,....vv"/>
                 <div id="searchProduct">
                 </div>
             </div>
@@ -98,6 +98,11 @@
             </div>
         </div>
     </body>
-    <script type="text/javascript" src="JS/showModal.js"></script>
+    <script src="JS/showModal.js" type="text/javascript" ></script>
     <script src="JS/SearchProduct.js" type="text/javascript"></script>
+    <script src="JS/ProductItemSlide.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        var slideshow = document.querySelectorAll("div.product-detail-img");
+        slideshow[0].style.display = "block";
+    </script>
 </html>

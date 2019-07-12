@@ -26,7 +26,7 @@
             <a href="NavigateServlet?page=homepage"> Trang chủ </a>
             <a id="myBtn">Gợi ý sản phẩm</a>
             <div class="search-container">
-                <input id="search" type="text" placeholder="Tìm đầm bé gái, áo bé trai,....vv"/>
+                <input size="450" id="search" type="text" placeholder="Tìm đầm bé gái, áo bé trai,....vv"/>
                 <div id="searchProduct">
                 </div>
             </div>

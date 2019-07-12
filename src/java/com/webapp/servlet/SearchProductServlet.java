@@ -29,22 +29,25 @@ public class SearchProductServlet extends HttpServlet {
 	 * @throws ServletException if a servlet-specific error occurs
 	 * @throws IOException if an I/O error occurs
 	 */
+	private static String xml = "";
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response)
 					throws ServletException, IOException {
 		response.setContentType("text/html;charset=UTF-8");
 		try (PrintWriter out = response.getWriter()) {
 			/* TODO output your page here. You may use following sample code. */
-			String query = request.getParameter("query");
+			String query = request.getParameter("query"), 
+						 navigate = request.getParameter("navigate");
+			System.out.println("navigate: " + navigate);
 			System.out.println("Search Servlet at XMLProject_Summer: " + query);
-		  String xml = DBUtils.getDataFromDB("SELECT TOP 7 ID, Type, Name FROM tblProduct WHERE Name LIKE '%" + query + "%'" + Constants.returnDBXMLRoot(Constants.PRODUCTS, Constants.PRODUCT));
+		  xml = DBUtils.getDataFromDB("SELECT TOP 10 ID, Type, Name, Price, (SELECT TOP 1 ImageLink FROM tblProductImage i WHERE p.ID = OfProductID) AS Images FROM tblProduct p WHERE Name LIKE '%" + query + "%'" + Constants.returnDBXMLRoot(Constants.PRODUCTS, Constants.PRODUCT));
 			System.out.println("xml: " + xml);
-			//response.setContentType("application/xml");
 			response.setCharacterEncoding("UTF-8");
-		  if(xml != null) {
-				response.getWriter().write(xml);
+			if (navigate.equals("true")) {
+				request.setAttribute("SEARCH_DATA", xml);
+				request.getRequestDispatcher("searchresult.jsp").forward(request, response);
 			}
 			else {
-				
+				response.getWriter().write(xml);
 			}
 		} catch (Exception e) {
 			System.out.println("error at search product servlet !");

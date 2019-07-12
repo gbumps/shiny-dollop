@@ -2,7 +2,7 @@ var textInputSearch = document.getElementById("search");
 var timeout = null;
 textInputSearch.addEventListener("keyup", (e) => {
     if (e.keyCode == 13) {
-        window.location.href = "SearchProductServlet"
+        window.location.href = "SearchProductServlet?navigate=true&query=" + textInputSearch.value;
     }//Enter 
     if (textInputSearch.value) {
         clearTimeout(timeout);
@@ -30,7 +30,7 @@ function searchProduct(strSearchValue) {
         var header = getResponseHeader(request, getXMLResponse);
         request.open("POST", "SearchProductServlet", true);
         request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        request.send("query=" + strSearchValue);
+        request.send("query=" + strSearchValue + "&navigate=false");
         request.onreadystatechange = header;
     } else {
         document.getElementById("searchProduct").innerHTML = "";

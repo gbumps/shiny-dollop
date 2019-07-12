@@ -17,7 +17,6 @@
         <link rel="stylesheet" href="CSS/modal.css" type="text/css"/>
         <title>Kết quả gợi ý</title>
     </head>
-
     <body>
         <c:set var="suggestionData" value="${requestScope.DATA}" />
         <c:import var="xslt" url="XSLT/html/Product.xsl" charEncoding="UTF-8" />
@@ -34,7 +33,7 @@
             <a href="NavigateServlet?page=homepage"> Trang chủ </a>
             <a id="myBtn">Gợi ý sản phẩm</a>
             <div class="search-container">
-                <input id="search" type="text" placeholder="Tìm đầm bé gái, áo bé trai,....vv"/>
+                <input  size="450" id="search" type="text" placeholder="Tìm đầm bé gái, áo bé trai,....vv"/>
                 <div id="searchProduct">
                 </div>
             </div>
@@ -46,8 +45,6 @@
                     <c:if test="${not empty suggestionData}">
                         <xm:parse var="resultSuggestion" xml="${suggestionData}" scope="request" />
                         <c:if test="${not empty resultSuggestion}">
-                            <xm:transform xml="${resultSuggestion}" xslt="${xslt}" />  
-                    <xm:transform xml="${resultSuggestion}" xslt="${xslt}" />  
                             <xm:transform xml="${resultSuggestion}" xslt="${xslt}" />  
                         </c:if>
                     </c:if>

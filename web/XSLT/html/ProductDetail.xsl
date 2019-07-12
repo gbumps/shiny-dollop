@@ -19,31 +19,39 @@
     </xsl:template>
     <xsl:template match="Product"> 
         <xsl:variable name="name" select="Name" />
-        <xsl:variable name="image" select="ImageLink" />
         <xsl:variable name="price" select="Price" />
         <xsl:variable name="description" select="Description" />
         <xsl:variable name="distributor" select="Distributor" />
         <xsl:variable name="rating" select="Rating" />
         <xsl:variable name="review" select="Review" />
         <xsl:variable name="link" select="Link" />
+        <xsl:variable name="oldprice" select="OldPrice" />
+        <xsl:variable name="sale" select="Sale" />
         <div class="product-detail-wrapper">
-            <div class="product-detail-img">
-                <img src="{$image}" height="500" width="327" /> 
-            </div>
+            <div class="slideshow-container">
+                <xsl:for-each select="Images/ImageLink">
+                    <div class="product-detail-img fade">
+                        <xsl:variable name="image" select="." />
+                        <img src="{$image}" height="500" width="327" /> 
+                    </div>
+                </xsl:for-each>
+                <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+                <a class="next" onclick="plusSlides(1)">&#10095;</a>
+            </div> 
             <div class="product-detail-info">
                 <div class="product-info-detail-text">
                     <h1><xsl:value-of select="$name"/></h1>
                     <h2><xsl:value-of select="$distributor"/></h2>
                     <p><xsl:value-of select="$description"/></p>
                     <div style="width:auto; justify-content:space-evenly; margin-left:38px; margin-top:10px;">
-                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 60 60" style="enable-background:new 0 0 60 60;display: inline-block" xml:space="preserve" width="30px" height="30px"><g><g>
+                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 60 60" style="enable-background:new 0 0 60 60;display: inline-block;margin-right:20px" xml:space="preserve" width="25px" height="25px"><g><g>
                         	<path d="M10,25.465h13c0.553,0,1-0.448,1-1s-0.447-1-1-1H10c-0.553,0-1,0.448-1,1S9.447,25.465,10,25.465z" data-original="#000000" class="active-path" data-old_color="#000000" fill="#3475FE"/>
                         	<path d="M36,29.465H10c-0.553,0-1,0.448-1,1s0.447,1,1,1h26c0.553,0,1-0.448,1-1S36.553,29.465,36,29.465z" data-original="#000000" class="active-path" data-old_color="#000000" fill="#3475FE"/>
                         	<path d="M36,35.465H10c-0.553,0-1,0.448-1,1s0.447,1,1,1h26c0.553,0,1-0.448,1-1S36.553,35.465,36,35.465z" data-original="#000000" class="active-path" data-old_color="#000000" fill="#3475FE"/>
                         	<path d="M54.072,2.535L19.93,2.465c-3.27,0-5.93,2.66-5.93,5.93v5.124l-8.07,0.017c-3.27,0-5.93,2.66-5.93,5.93v21.141   c0,3.27,2.66,5.929,5.93,5.929H12v10c0,0.413,0.254,0.784,0.64,0.933c0.117,0.045,0.239,0.067,0.36,0.067   c0.276,0,0.547-0.115,0.74-0.327l9.704-10.675l16.626-0.068c3.27,0,5.93-2.66,5.93-5.929v-0.113l5.26,5.786   c0.193,0.212,0.464,0.327,0.74,0.327c0.121,0,0.243-0.022,0.36-0.067c0.386-0.149,0.64-0.52,0.64-0.933v-10h1.07   c3.27,0,5.93-2.66,5.93-5.929V8.465C60,5.196,57.341,2.536,54.072,2.535z M44,40.536c0,2.167-1.763,3.929-3.934,3.929l-17.07,0.07   c-0.28,0.001-0.548,0.12-0.736,0.327L14,53.949v-8.414c0-0.552-0.447-1-1-1H5.93c-2.167,0-3.93-1.763-3.93-3.929V19.465   c0-2.167,1.763-3.93,3.932-3.93l9.068-0.019c0,0,0,0,0,0c0.001,0,0.001,0,0.002,0l25.068-0.052c2.167,0,3.93,1.763,3.93,3.93   v18.441V40.536z M58,29.606c0,2.167-1.763,3.929-3.93,3.929H52c-0.553,0-1,0.448-1,1v8.414l-5-5.5V19.395   c0-3.27-2.66-5.93-5.932-5.93L16,13.514v-5.12c0-2.167,1.763-3.93,3.928-3.93l34.141,0.07c0.001,0,0.001,0,0.002,0   c2.167,0,3.93,1.763,3.93,3.93V29.606z" data-original="#000000" class="active-path" data-old_color="#000000" fill="#3475FE"/>
                         </g></g> </svg>
-                        <h3 style="display: inline-block"><xsl:value-of select="round($rating)"/></h3>
-                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;display: inline-block" xml:space="preserve" width="30px" height="30px" class=""><g><g>
+                        <h3 style="display: inline-block"><xsl:value-of select="$review"/></h3>
+                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;display: inline-block;margin-right:20px; margin-left:30px;" xml:space="preserve" width="25px" height="25px" class=""><g><g>
                         	<g>
                         		<path d="M122.551,278.402c-12.566,0-22.789,10.222-22.789,22.787s10.223,22.787,22.789,22.787    c12.565,0,22.787-10.222,22.787-22.787S135.115,278.402,122.551,278.402z M122.551,308.949c-4.278,0-7.759-3.481-7.759-7.758    s3.481-7.758,7.759-7.758c4.278,0,7.758,3.481,7.758,7.758S126.828,308.949,122.551,308.949z" data-original="#000000" class="active-path" data-old_color="#000000" fill="#25A45C"/>
                         	</g>
@@ -64,10 +72,23 @@
                         		<path d="M451.167,189.098c7.762-6.246,12.737-15.823,12.737-26.538c0-18.777-15.276-34.053-34.052-34.053H308.976    c3.757-8.192,8.094-20.671,10.573-38.018c5.758-40.309-2.943-61.705-11.256-72.556c-7.036-9.184-16.489-14.738-27.335-16.06    c-9.152-1.124-17.509,6.145-17.753,15.339c-1.407,14.454-6.554,54.107-13.926,68.853c-18.939,37.878-64.093,60.461-78.039,66.709    c-4.88-4.194-11.218-6.737-18.142-6.737H92.004c-15.372,0-27.878,12.505-27.878,27.878v152.731    c0,15.373,12.506,27.878,27.878,27.878h61.092c8.225,0,15.628-3.583,20.734-9.267c7.931,5.007,20.731,10.585,38.408,10.585    h196.383c18.777,0,34.052-15.276,34.052-34.052c0-8.607-3.21-16.479-8.496-22.481c11.308-5.545,19.11-17.178,19.11-30.597    c0-8.607-3.21-16.478-8.496-22.481c11.308-5.544,19.11-17.177,19.11-30.596C463.904,204.921,458.928,195.344,451.167,189.098z     M153.096,339.494H92.004c-7.085,0-12.849-5.764-12.849-12.849V173.914c0-7.085,5.764-12.849,12.849-12.849h61.092    c3.588,0,6.833,1.482,9.166,3.862v167.58c0,0.899,0.163,1.781,0.471,2.609C160.376,337.793,156.935,339.494,153.096,339.494z     M398.279,196.612h31.576c10.49,0,19.023,8.535,19.023,19.023s-8.534,19.023-19.023,19.023h-31.576    c-4.15,0-7.515,3.364-7.515,7.515c0,4.151,3.365,7.515,7.515,7.515h20.96c10.49,0,19.023,8.535,19.023,19.023    c0,10.488-8.534,19.023-19.023,19.023h-26.721c-4.15,0-7.515,3.364-7.515,7.515c0,4.151,3.365,7.515,7.515,7.515h16.105    c10.489,0,19.023,8.535,19.023,19.024c0,10.489-8.534,19.023-19.023,19.023H212.24c-15.51,0-26.025-5.196-31.734-9.097    c0.304-1.646,0.471-3.339,0.471-5.071V173.914c0-2.938-0.46-5.769-1.306-8.429c17.608-8.081,62.687-31.974,83.05-72.699    c10.185-20.369,15.263-72.239,15.474-74.437c0.022-0.238,0.034-0.479,0.034-0.718c0-0.256,0.098-0.474,0.291-0.644    c0.27-0.237,0.53-0.207,0.617-0.196c4.704,0.574,11.511,2.824,17.226,10.282c6.561,8.564,13.328,26.149,8.308,61.291    c-4.255,29.787-14.344,42.818-14.407,42.899c-3.939,4.814-0.392,12.274,5.815,12.274h133.775c10.49,0,19.023,8.535,19.023,19.024    c0,10.49-8.534,19.023-19.023,19.023h-31.576c-4.15,0-7.515,3.364-7.515,7.515S394.128,196.612,398.279,196.612z" data-original="#000000" class="active-path" data-old_color="#000000" fill="#25A45C"/>
                         	</g>
                         </g></g> </svg>
-                        <h3 style="display: inline-block"><xsl:value-of select="$review"/></h3>
+                        <h3 style="display: inline-block">
+                            <xsl:value-of select="$rating" />
+                        </h3>
                     </div>
                 </div>
                 <div class="product-detail-price-btn">
+                    <xsl:choose> 
+                        <xsl:when test="$sale = 1">
+                            <del style="display: inline-block;padding-left:38px;">
+                                <xsl:value-of select="$oldprice" />
+                            </del>
+                            VNĐ
+                        </xsl:when>
+                        <xsl:otherwise> 
+
+                        </xsl:otherwise>
+                    </xsl:choose>
                     <p><span><xsl:value-of select="$price"/></span> VNĐ</p>
                     <button type="button" onclick="javascript:location.href='{$link}'">Đi tới sản phẩm</button>
                 </div>

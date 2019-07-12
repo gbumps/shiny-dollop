@@ -46,8 +46,8 @@ public class HomePageServlet extends HttpServlet {
 	}
 
 	private String returnSqlString() {
-		String res = "";
-		String[] types = {"N'Bộ'","N'Áo'","N'Quần'"};
+		String res = "";	
+		String[] types = {"N'Bộ'","N'Áo'","N'Quần'","N'Váy'"};
 		for (int i = 0;i < 2; i++) {
 			for (int j = 0;j < types.length;j++) {
 				res += "SELECT * FROM (SELECT TOP 1 ID, Sex, Type, (SELECT TOP 1 ImageLink FROM tblProductImage i WHERE p.ID = OfProductID), (SELECT COUNT(ID) FROM tblProduct p WHERE Type IN (" + types[j] +") AND Sex = " + i + ") AS NumberOfProducts, (SELECT AVG(Price) FROM tblProduct p WHERE Type IN (" + types[j] +") AND Sex = " + i + ") AS AveragePrice FROM tblProduct p WHERE Type IN (" + types[j] +") AND Sex = " + i + ") AS tbl(ID, Sex, Type, Images, NumberOfProducts, AveragePrice)";

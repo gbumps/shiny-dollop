@@ -50,5 +50,5 @@ public class Constants {
 	public static String returnDBXMLRoot(String root, String item) {
 		return " FOR XML PATH ('" + item + "'), ROOT ('" + root + "'), TYPE";
 	}
-
+	
 }

@@ -9,9 +9,7 @@
 }
 
 .product-detail-img {
-  float: left;
-  height: 500px;
-  width: 327px;
+  display: none;
 }
 
 .product-detail-img img {
@@ -19,7 +17,7 @@
  }
 
 .product-detail-info {
-  float: left;
+  float: right;
   height: 500px;
   width: 573px;
   padding-left: 7px;
@@ -60,8 +58,8 @@
 }
 
 .product-detail-price-btn {
-  height: 95px;
-  width: 493px;
+  height: 85px;
+  width: 583px;
   margin-top: 22px;
   position: relative;
 }
@@ -70,7 +68,7 @@
   display: inline-block;
   position: absolute;
   height: 50px;
-  margin: 0 0 0 38px;
+  margin: 0 0 0 3px;
   font-size: 28px;
   font-weight: 300;
   color: #474747;
@@ -87,7 +85,7 @@ span {
   display: inline-block;
   height: 50px;
   width: 176px;
-  margin: 0 40px 0 16px;
+  margin: 0 40px 0 0px;
   box-sizing: border-box;
   border: transparent;
   border-radius: 60px;
@@ -99,4 +97,57 @@ span {
   background-color: #9f7dfe;
   cursor: pointer;
   outline: none;
+}
+
+.slideshow-container {
+  float: left;
+  max-width: 327px;
+  max-height: 500px;
+  position: relative;
+  margin: auto;
+}
+
+.prev, .next {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  width: auto;
+  margin-top: -22px;
+  padding: 16px;
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  transition: 0.6s ease;
+  border-radius: 0 3px 3px 0;
+  user-select: none;
+}
+
+.next {
+  right: 0;
+  border-radius: 3px 0 0 3px;
+}
+
+.prev:hover, .next:hover {
+  background-color: rgba(0,0,0,0.8);
+}
+
+.active, .dot:hover {
+  background-color: #717171;
+}
+
+.fade {
+  -webkit-animation-name: fade;
+  -webkit-animation-duration: 1.5s;
+  animation-name: fade;
+  animation-duration: 1.5s;
+}
+
+@-webkit-keyframes fade {
+  from {opacity: .4} 
+  to {opacity: 1}
+}
+
+@keyframes fade {
+  from {opacity: .4} 
+  to {opacity: 1}
 }
