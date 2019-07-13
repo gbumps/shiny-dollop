@@ -32,20 +32,19 @@ public class DBUtils implements Serializable {
 						 options = t.getOptions().getOption();
 	
 				try {
-					p = con.prepareStatement("INSERT INTO tblProduct(ID, Name, Sale, Price, OldPrice, Type, Link, Sex, Distributor, Description, Rating, Review) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)");
+					p = con.prepareStatement("INSERT INTO tblProduct(ID, Name, Sale, Price, OldPrice, Type, Link, Sex, Distributor, Description, CanCombine) VALUES (?,?,?,?,?,?,?,?,?,?,?)");
 					if (!t.getId().equals("")) {
 						p.setString(1, t.getId());
 						p.setString(2, t.getName());
 						p.setByte(3, parseByte(t.isSale()));
 						p.setInt(4, t.getPrice().intValue());
 						p.setInt(5, t.getOldprice().intValue());
-						p.setString(6, t.getType());
+						p.setString(6, returnType(t.getType()));
 						p.setString(7, t.getLink());
 						p.setByte(8, parseByte(t.isSex()));
 						p.setString(9, t.getDistributor());
 						p.setString(10, t.getDescription().equals("") ? Constants.NO_DESCRIPTION : t.getDescription());
-					  p.setFloat(11, t.getRating());
-						p.setInt(12, t.getReview().intValue());
+					  p.setByte(11, parseByte(t.isCancombine()));
 						p.executeUpdate();
 					}
 				
@@ -86,6 +85,17 @@ public class DBUtils implements Serializable {
 			closeConnection();
 			System.out.println("Insert item completed !");
 		}
+	 
+	 private static String returnType(String type) {
+		 if (type.equals("Đầm") || type.equals("Chân")) {
+			 return "Váy";
+		 } else if (type.equals("Set") || type.equals("Đồ") || type.equals("Bmn")) {
+			 return "Bộ";
+		 } else if (type.equals("Sơ")) {
+			 return "Áo";
+		 }
+		 return type;
+	 }
 	 
 	 public static boolean checkProductsCrawled() throws Exception {
 		 con = ConnectionClass.GetConnection();

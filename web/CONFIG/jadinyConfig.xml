@@ -7,11 +7,11 @@ and open the template in the editor.
 
 <!DOCTYPE root SYSTEM "Page.dtd">
 <root>
-    <startelement>&lt;div class=&quot;blocklayout &quot;&gt;</startelement>
-    <endelement>&lt;div class=&quot;row hidden hidden-pagination&quot;&gt;</endelement>
-    <startelementdetail>&lt;div class=&quot;product-container cf&quot;&gt;</startelementdetail>
-    <endelementdetail>&lt;div class=&quot;related-products&quot;&gt;</endelementdetail>
-    <pages>6</pages>
-    <boy>https://jadiny.vn/collections/be-trai?page=</boy>
-    <girl>https://jadiny.vn/collections/be-gai?page=</girl>
+    <startelement>&lt;div class=&quot;catalog-products row clearfix&quot;&gt;</startelement>
+    <endelement>&lt;div class=&quot;pagination-holder&quot;&gt;</endelement>
+    <startelementdetail>&lt;div id=&quot;single-product&quot; class=&quot;inner-top-50&quot;&gt;</startelementdetail>
+    <endelementdetail>&lt;div class=&quot;container inner-top-sm&quot;&gt;</endelementdetail>
+    <pages>12</pages>
+    <boy>https://jadiny.vn/thoi-trang-be-trai_c335.html?p=</boy>
+    <girl>https://jadiny.vn/thoi-trang-be-gai_c314.html?p=</girl>
 </root>

@@ -44,6 +44,7 @@ public class SearchProductServlet extends HttpServlet {
 			response.setCharacterEncoding("UTF-8");
 			if (navigate.equals("true")) {
 				request.setAttribute("SEARCH_DATA", xml);
+				request.setAttribute("QUERY", query);
 				request.getRequestDispatcher("searchresult.jsp").forward(request, response);
 			}
 			else {

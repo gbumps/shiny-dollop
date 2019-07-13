@@ -40,7 +40,7 @@ public class XMLSyntaxChecker {
 			switch (state) {
 				case CONTENT: 
 					
-					if (c == LT) { //if is an open tag, "<", then change state to open bracket 
+					if (c == LT) {
 						state = OPEN_BRACKET;
 						writer.append(content.toString().trim().replace("&", "&amp;"));
 					}

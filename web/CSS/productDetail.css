@@ -3,8 +3,6 @@
   width: 920px;
   margin: 50px auto;
   border-radius: 7px 7px 7px 7px;
-  -webkit-box-shadow: 0px 14px 32px 0px rgba(0, 0, 0, 0.15);
-  -moz-box-shadow: 0px 14px 32px 0px rgba(0, 0, 0, 0.15);
   box-shadow: 0px 14px 32px 0px rgba(0, 0, 0, 0.15);
 }
 
@@ -68,7 +66,7 @@
   display: inline-block;
   position: absolute;
   height: 50px;
-  margin: 0 0 0 3px;
+  margin: 0 0 0 23px;
   font-size: 28px;
   font-weight: 300;
   color: #474747;

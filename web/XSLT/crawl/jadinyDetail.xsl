@@ -19,98 +19,61 @@
                   xmlns='http://xml.netbeans.org/schema/product'>
         
             <xsl:for-each select="//product">
-              <xsl:variable name="container" select="div[@class='product-container cf']" />
-              <xsl:variable name="info" select="$container/div[@class='product-info']/div[@class='inner']/div[1]"/>
-              <xsl:variable name="images" select="$container/div[@class='product-gallery ']/div[@class='gallery-thumbs']"/>
-              <xsl:variable name="options" select="$container/div[@class='product-info']/div[@class='inner']/form[@class='product-form']/div[@class='productoptions section']/div[1]/select[@class='original-selector']"/>
-              <xsl:variable name="price" select="$info/div[@class='pricearea']/span[@class='price theme-money']"/>
-              <xsl:variable name="price1" select="translate($price,'₫','')"/>
-              <xsl:variable name="price2" select="translate($price1,'.','')"/>
-              <xsl:variable name="oldprice" select="$info/div[@class='pricearea']/span[@class='was-price theme-money']"/>
-              <xsl:variable name="sale" select="$info/span[@class='productlabel sale']/span"/>
-              <xsl:variable name="link" select="link/@href"/>
+                <xsl:variable name="container" select="div[@class='inner-top-50']/div" />
+                <xsl:variable name="info" select="$container/div[1]/div[2]/div[@class='product-info']"/>
+                <xsl:variable name="images" select="$container/div[1]/div[1]/div[@class='product-image-slider']/section/div/div[1]/ul"/>
+                <xsl:variable name="options" select="$info/div[@class='product-attributes ']/div[2]/ul"/>
+                <xsl:variable name="price" select="$info/div[@class='product-price']/ins/span[@class='amount']"/>
+                <xsl:variable name="price1" select="translate($price,' VN&amp;#x110;','')"/>
+                <xsl:variable name="price2" select="translate($price1,'.','')"/>
+                <xsl:variable name="link" select="link/@href"/>
                
-              <product>
-                <id> 
-                    <xsl:value-of select="$info/div[@class='product-classification']/div/span[@class='sku__value']"/>
-                </id>
-                <name>
-                    <xsl:value-of select="$info/h1[@class='product-title']"/>
-                </name>
-                <sale>     
-                    <xsl:choose>
-                        <xsl:when test="not($sale='SALE')">false</xsl:when>
-                        <xsl:otherwise>true</xsl:otherwise>
-                    </xsl:choose>
-                </sale>
-                <price>
-                    <xsl:value-of select="number($price2)"/>
-                </price>
-                <oldprice>
-                    <xsl:choose>
-                        <xsl:when test="($sale='SALE')">
-                            <xsl:variable name="oldprice1" select="translate($oldprice,'₫','')"/>
-                            <xsl:variable name="oldprice2" select="translate($oldprice1,'.','')"/>
-                            <xsl:value-of select="number($oldprice2)"/>
-                        </xsl:when>
-                        <xsl:otherwise>
-                            <xsl:value-of select="number($price2)"/>
-                        </xsl:otherwise>
-                    </xsl:choose>
-                </oldprice>
-                <type>
-                    <xsl:value-of select="substring-before($info/h1[@class='product-title'],' ')"/>
-                </type>
-                <link>
-                    <xsl:value-of select="$link"/>
-                </link>
-                <images>
-                    <xsl:for-each select="$images/a">
-                        <image>
-                            <xsl:value-of select="./div/div/noscript/img/@src"/>
-                        </image>  
-                    </xsl:for-each>
-                </images>
-                <options>
-                    <xsl:for-each select="$options/option">
-                        <option>
-                            <xsl:value-of select="."/>
-                        </option>
-                    </xsl:for-each>
-                </options>
-                <sex>
-                    <xsl:choose>
-                        <xsl:when test="contains($link,'be-trai')">true</xsl:when>
-                        <xsl:otherwise>false</xsl:otherwise>
-                    </xsl:choose>
-                </sex>
-                <distributor>Jadiny</distributor>
-                <description>
-                    <xsl:value-of select="//div[@class='descriptionunder reading-container']/p"/>
-                </description>
-                <rating>
-                    <xsl:variable name="rating" select="div[@class='themed-product-reviews-manager reading-container']/div/div/div[1]/div/span[@class='spr-starrating spr-summary-starrating']/meta[@itemprop='ratingValue']/@content"/>
-                    <xsl:choose>
-                        <xsl:when test="not($rating)'">
-                            0.0
-                        </xsl:when>
-                        <xsl:otherwise>
-                            <xsl:value-of select="$rating"/>
-                        </xsl:otherwise>
-                    </xsl:choose>
-                </rating>
-                <review>
-                    <xsl:variable name="review" select="div[@class='themed-product-reviews-manager reading-container']/div/div/div[1]/div/span[@class='spr-starrating spr-summary-starrating']/meta[@itemprop='reviewCount']/@content"/>
-                    <xsl:choose>
-                        <xsl:when test="not($review)'">
-                            0
-                        </xsl:when>
-                        <xsl:otherwise>
-                            <xsl:value-of select="$review"/>
-                        </xsl:otherwise>
-                    </xsl:choose>
-                </review>
-              </product>
+                <product>
+                    <id> 
+                        <xsl:value-of select="substring-after($info/h2[@class='sku-code']/text(), 'Mã: ')"/>
+                    </id>
+                    <name>
+                        <xsl:value-of select="$container/div[1]/@data-url-slug"/>
+                    </name>
+                    <sale>false</sale>
+                    <price>
+                        <xsl:value-of select="number($price2)"/>
+                    </price>
+                    <oldprice>
+                        <xsl:value-of select="number($price2)"/>
+                    </oldprice>
+                    <type>
+                        <xsl:value-of select="substring-before($info/h1[@class='single-product-title'],'-')"/>
+                    </type>
+                    <link>
+                        <xsl:value-of select="$link"/>
+                    </link>
+                    <images>
+                        <xsl:for-each select="$images/li">
+                            <image>
+                                <xsl:value-of select="./a/@href"/>
+                            </image>  
+                        </xsl:for-each>
+                    </images>
+                    <options>
+                        <xsl:for-each select="$options/li">
+                            <option>
+                                <xsl:value-of select="./label/span/text()"/>
+                            </option>
+                        </xsl:for-each>
+                    </options>
+                    <sex>
+                        <xsl:choose>
+                            <xsl:when test="contains($link,'be-trai')">true</xsl:when>
+                            <xsl:otherwise>false</xsl:otherwise>
+                        </xsl:choose>
+                    </sex>
+                    <distributor>Jadiny</distributor>
+                    <description>
+                        Xem chi tiết ở link bên dưới
+                    </description>
+                    <cancombine>false</cancombine>
+                </product>
             </xsl:for-each>
         </products>
     </xsl:template>

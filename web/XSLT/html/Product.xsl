@@ -46,7 +46,7 @@
                         <xsl:value-of select="$name" />
                     </h3>
                     <span class="product-medium-price">
-                        <xsl:value-of select="$price" />
+                        <xsl:value-of select="$price" /> VNĐ
                     </span>
                 </div>
             </div>

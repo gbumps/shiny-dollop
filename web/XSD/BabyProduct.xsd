@@ -31,8 +31,7 @@ and open the template in the editor.
             <xsd:element name="sex" type="xsd:boolean" />
             <xsd:element name="distributor" type="xsd:string" />
             <xsd:element name="description" type="xsd:string" />
-            <xsd:element name="rating" type="xsd:float" />
-            <xsd:element name="review" type="xsd:nonNegativeInteger"/>
+            <xsd:element name="cancombine" type="xsd:boolean" />
         </xsd:sequence>
     </xsd:complexType>
     <xsd:complexType name="imageType">

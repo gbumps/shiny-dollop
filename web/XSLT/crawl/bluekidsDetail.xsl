@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!--
-    Document   : bexinhshopDetail.xsl
+    Document   : bluekidsDetail.xsl
     Created on : June 18, 2019, 3:28 PM
     Author     : stephen
     Description:
@@ -88,8 +88,13 @@
                         <xsl:value-of select="."/>
                     </xsl:for-each>
                 </description>
-                <rating>0.0</rating>
-                <review>0</review>
+                <cancombine>
+                    <xsl:variable name="cancombine" select="$container/div[3]/div[1]/div[@id='product-recommend']/div[2]/div" />
+                    <xsl:choose>
+                        <xsl:when test="($cancombine = '')"> false </xsl:when>
+                        <xsl:otherwise> true </xsl:otherwise>
+                    </xsl:choose>
+                </cancombine>
               </product>
             </xsl:for-each>
         </products>

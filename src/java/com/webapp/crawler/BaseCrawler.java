@@ -165,7 +165,7 @@ public class BaseCrawler {
 		u.setSchema(schema);
 	  File f = new File(xmlOutputDetailFile);
 	  Products products  = (Products) u.unmarshal(f);
-		System.out.println(webPageName + "has total: " + products.getProduct().size());
+		System.out.println(webPageName + " has total: " + products.getProduct().size());
 		DBUtils.insertDataCrawledToDB(products.getProduct());
 	} 
 

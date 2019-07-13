@@ -87,11 +87,24 @@
                         <option value="2">500k-1tr</option>
                         <option value="3">1tr-1tr6</option>
                     </select>
-                    <p>Chọn mức độ ưu tiên theo: (Giá thành rẻ đã bao gồm khuyến mãi)</p>
-                    <select name="suggestionOption">
-                        <option value="1">Giá thành rẻ - Đánh gía tốt - Nhiều bình luận</option>
-                        <option value="2">Đánh gía tốt - Giá thành rẻ - Nhiều bình luận</option>
-                        <option value="3">Nhiều bình luận - Đánh giá tốt - Giá thành rẻ</option>
+                    <p>Đồ có thể mặc kết hợp ?</p>
+                    <select name="canCombine">
+                        <option value="0">Có</option>
+                        <option value="1">Không</option>
+                    </select>
+                    <p>Chọn màu sắc</p>
+                    <select name="color">
+                        <option value="1">Nâu</option>
+                        <option value="2">Đỏ</option>
+                        <option value="3">Cam</option>
+                        <option value="4">Xanh</option>
+                        <option value="5">Vàng</option>
+                        <option value="6">Tím</option>
+                        <option value="7">Trắng</option>
+                        <option value="8">Đen</option>
+                        <option value="9">Xám</option>
+                        <option value="10">Kem</option>
+                        <option value="11">Hồng</option>
                     </select>
                     <input type="submit" value="Suggest" />
                 </form>

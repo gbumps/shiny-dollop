@@ -16,8 +16,8 @@
     -->
     <xsl:template match="/">
         <ProductDetailLinks>
-            <xsl:for-each select="//div[@class='block product size-medium fixed-ratio']">
-                <xsl:variable name="link" select="./div/a/@href"/>
+            <xsl:for-each select="//div[@class='col-md-6 col-sm-6 col-lg-4 col-xs-6 product-holder']">
+                <xsl:variable name="link" select="./div/div[@class='image']/a/@href"/>
                 <Link>https://jadiny.vn<xsl:value-of select="$link"/></Link>
             </xsl:for-each>
         </ProductDetailLinks>
