@@ -46,61 +46,63 @@
                 <span class="close">&times;</span>
                 <h1>Gợi ý</h1>
                     <form method="POST" action="SuggestionServlet">
-                        <p>Bạn hãy chọn giới tính của con mình</p>
-                        <select name="sex">
-                            <option value="1">Nam</option>
-                            <option value="0">Nữ</option>
-                        </select>
-                        <p>Tuổi của con bạn là bao nhiêu ?(1 - 14)</p>
-                        <select name="yearOld">
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                            <option value="6">6</option>
-                            <option value="7">7</option>
-                            <option value="8">8</option>
-                            <option value="9">9</option>
-                            <option value="10">10</option>
-                            <option value="11">11</option>
-                            <option value="12">12</option>
-                            <option value="13">13</option>
-                        </select>
-                        <p>Bạn muốn chọn loại đồ nào ?</p>
-                        <select name="type">
-                            <option value="1">Áo</option>
-                            <option value="2">Quần</option>
-                            <option value="3">Combo</option>
-                            <option value="4">Váy</option>
-                        </select>
-                        <p>Bạn mong muốn mức giá bao nhiêu ?</p>
-                        <select name="desirePrice">
-                            <option value="1">0-500k</option>
-                            <option value="2">500k-1tr</option>
-                            <option value="3">1tr-1tr6</option>
-                        </select>
-                        <p>Đồ có thể mặc kết hợp ?</p>
-                        <select name="canCombine">
-                            <option value="0">Có</option>
-                            <option value="1">Không</option>
-                        </select>
-                        <p>Chọn màu sắc</p>
-                        <select name="color">
-                            <option value="1">Nâu</option>
-                            <option value="2">Đỏ</option>
-                            <option value="3">Cam</option>
-                            <option value="4">Xanh</option>
-                            <option value="5">Vàng</option>
-                            <option value="6">Tím</option>
-                            <option value="7">Trắng</option>
-                            <option value="8">Đen</option>
-                            <option value="9">Xám</option>
-                            <option value="10">Kem</option>
-                            <option value="11">Hồng</option>
-                        </select>
-                        <input type="submit" value="Suggest" />
-                    </form>
+                    <p>Bạn hãy chọn giới tính của con mình</p>
+                    <select name="sex">
+                        <option value="1">Nam</option>
+                        <option value="0">Nữ</option>
+                    </select>
+                    <p>Tuổi của con bạn là bao nhiêu ?(1 - 14)</p>
+                    <select name="yearOld">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                        <option value="11">11</option>
+                        <option value="12">12</option>
+                        <option value="13">13</option>
+                    </select>
+                    <p>Bạn muốn chọn loại đồ nào ?</p>
+                    <select name="type">
+                        <option value="1">Áo</option>
+                        <option value="2">Quần</option>
+                        <option value="3">Combo</option>
+                        <option value="4">Váy</option>
+                    </select>
+                    <p>Bạn mong muốn mức giá bao nhiêu ?</p>
+                    <select name="desirePrice">
+                        <option value="1">0-500k</option>
+                        <option value="2">500k-1tr</option>
+                        <option value="3">1tr-1tr6</option>
+                    </select>
+                    <p>Đồ có thể mặc kết hợp ?</p>
+                    <select name="canCombine">
+                        <option value="0">Tuỳ</option>
+                        <option value="1">Có</option>
+                        <option value="2">Không</option>
+                    </select>
+                    <p>Chọn màu sắc</p>
+                    <select name="color">
+                        <option value="0">Tuỳ</option>
+                        <option value="1">Nâu</option>
+                        <option value="2">Đỏ</option>
+                        <option value="3">Cam</option>
+                        <option value="4">Xanh</option>
+                        <option value="5">Vàng</option>
+                        <option value="6">Tím</option>
+                        <option value="7">Trắng</option>
+                        <option value="8">Đen</option>
+                        <option value="9">Xám</option>
+                        <option value="10">Kem</option>
+                        <option value="11">Hồng</option>
+                    </select> 
+                    <input type="submit" value="Suggest" />
+                </form>
             </div>
         </div>
     </body>

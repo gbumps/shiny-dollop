@@ -38,8 +38,9 @@ public class SuggestionServlet extends HttpServlet {
 			String yearOld = request.getParameter("yearOld"),
 						 sex = request.getParameter("sex"),
 						 type = request.getParameter("type"),
-						 priceOption = request.getParameter("desirePrice"), 
-						 suggestionOption = request.getParameter("suggestionOption");
+						 priceOption = request.getParameter("desirePrice"),
+						 canCombine = request.getParameter("canCombine"),
+						 color = request.getParameter("color");
 			System.out.println("sex: " + sex);
 			System.out.println("yearold: " + yearOld);
 			System.out.println("type: " + type);
@@ -50,8 +51,10 @@ public class SuggestionServlet extends HttpServlet {
 											Integer.parseInt(sex), 
 											(Integer) priceBetween.get(0), 
 											(Integer) priceBetween.get(1),
-											returnSuggestionOption(suggestionOption))
-		  );
+											returnCanCombine(canCombine),
+											returnColor(color)
+							)
+			);
 			System.out.println("res: " + res);
 			request.setAttribute("DATA", res);
 			request.getRequestDispatcher("suggestionpage.jsp").forward(request, response);
@@ -73,37 +76,18 @@ public class SuggestionServlet extends HttpServlet {
 				res = "N'Quần'";
 				break;
 			case 3:
-				res = "N'Đồ', N'Bộ', N'Set'";
+				res = "N'Bộ'";
 				break;
 			case 4:
-				res = "N'Váy', N'Đầm'";
+				res = "N'Váy'";
 				break;
 		}
 		System.out.println("res: " + res);
 		return res;
 	}
-
-	private String returnSuggestionOption(String sOption) throws Exception {
-		int i = Integer.parseInt(sOption);
-		String res = "";
-		//System.out.println("type: " + i);
-		switch (i) {
-			case 1:
-				res = "3 ASC, 6 DESC, 7 DESC";
-				break;
-			case 2:
-				res = "6 DESC, 3 ASC, 7 DESC";
-				break;
-			case 3:
-				res = "7 DESC, 6 DESC, 3 ASC";
-				break;
-		}
-		//System.out.println("res: " + res);
-		return res;
-	}
 	
-	private String returnSqlSuggestionString(String option, String type, Integer sex, Integer priceFrom, Integer priceTo, String suggestionOption) {
-		return "SELECT TOP 20 ID, Name, Price, OldPrice, Sale, Rating, Review, Type, (SELECT TOP 1 ImageLink FROM tblProductImage WHERE ID = OfProductID) AS Images FROM tblProduct WHERE ID IN (SELECT DISTINCT ID FROM tblProduct WHERE ID IN (SELECT OfProductID FROM tblProductOption WHERE OptionProduct LIKE '" + option + "')) AND Type IN (" + type + ") AND Sex = " + sex + " AND Price BETWEEN " + priceFrom + " AND " + priceTo + " ORDER BY " + suggestionOption + Constants.returnDBXMLRoot(Constants.PRODUCTS, Constants.PRODUCT);
+	private String returnSqlSuggestionString(String option, String type, Integer sex, Integer priceFrom, Integer priceTo, String canCombine, String color) {
+		return "SELECT ID, Name, Price, OldPrice, Sale, Type, (SELECT TOP 1 ImageLink FROM tblProductImage WHERE ID = OfProductID) AS Images FROM tblProduct WHERE ID IN (SELECT DISTINCT ID FROM tblProduct WHERE ID IN (SELECT OfProductID FROM tblProductOption WHERE OptionProduct LIKE '" + option + "')) AND Type IN (" + type + ") AND Sex = " + sex + " AND Price BETWEEN " + priceFrom + " AND " + priceTo + canCombine + color + Constants.returnDBXMLRoot(Constants.PRODUCTS, Constants.PRODUCT);
 	}
 	
 	private ArrayList returnPriceInBetween(String priceOption) throws Exception {
@@ -127,6 +111,49 @@ public class SuggestionServlet extends HttpServlet {
 		return res;
 	}
 	
+	private String returnCanCombine(String combine) throws Exception{
+		int i = Integer.parseInt(combine);
+		switch (i) {
+			case 0: 
+				return "";
+			case 1:
+			  return " AND CanCombine = 1";
+			case 2: 
+				return " AND CanCombine = 0";
+		}
+		return "";
+	}
+	
+	private String returnColor(String color) throws Exception{
+	int i = Integer.parseInt(color);
+		switch (i) {
+			case 0: 
+				return "";
+			case 1:
+			  return " AND Name LIKE '%nau%' OR Name LIKE '%nâu%'";
+			case 2: 
+				return " AND Name LIKE '%do%' OR Name LIKE '%đỏ%'";
+			case 3:
+				return " AND Name LIKE '%cam%'";
+			case 4:
+				return " AND Name LIKE '%xanh%'";
+			case 5:
+				return " AND Name LIKE '%vang%' OR Name LIKE '%vàng%'";
+			case 6:
+				return " AND Name LIKE '%tim%' OR Name LIKE '%tím%'";
+			case 7:
+				return " AND Name LIKE '%trang%' OR Name LIKE '%trắng%'";
+			case 8:
+				return " AND Name LIKE '%den%' OR Name LIKE '%đen%'";
+			case 9: 
+				return " AND Name LIKE '%xam%' OR Name LIKE '%xám%'";
+			case 10: 
+				return " AND Name LIKE '%kem%'";
+			case 11: 
+				return " AND Name LIKE '%hong%' OR Name LIKE '%hồng%'";
+		}
+		return "";
+	}
 	// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
 	/**
 	 * Handles the HTTP <code>GET</code> method.

@@ -40,7 +40,7 @@
                     <xm:transform xml="${resultXML}" xslt="${DetailXSL}" />  
                 </c:if>
                 <div class="related-product">
-                    <h1>Sản phẩm tương tự</h1>
+                    <h1>Sản phẩm bạn có thể thích</h1>
                     <xm:parse var="resultRelatedXML" xml="${resultRelated}" scope="request" />
                     <c:if test="${not empty resultRelatedXML}">
                         <xm:transform xml="${resultRelatedXML}" xslt="${ProductXSL}" />  
@@ -89,11 +89,13 @@
                     </select>
                     <p>Đồ có thể mặc kết hợp ?</p>
                     <select name="canCombine">
-                        <option value="0">Có</option>
-                        <option value="1">Không</option>
+                        <option value="0">Tuỳ</option>
+                        <option value="1">Có</option>
+                        <option value="2">Không</option>
                     </select>
                     <p>Chọn màu sắc</p>
                     <select name="color">
+                        <option value="0">Tuỳ</option>
                         <option value="1">Nâu</option>
                         <option value="2">Đỏ</option>
                         <option value="3">Cam</option>
@@ -105,7 +107,7 @@
                         <option value="9">Xám</option>
                         <option value="10">Kem</option>
                         <option value="11">Hồng</option>
-                    </select>
+                        </select> 
                     <input type="submit" value="Suggest" />
                 </form>
             </div>

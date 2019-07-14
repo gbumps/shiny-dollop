@@ -80,22 +80,24 @@
                     </select>
                     <p>Đồ có thể mặc kết hợp ?</p>
                     <select name="canCombine">
-                        <option value="0">Có</option>
-                        <option value="1">Không</option>
+                        <option value="0">Tuỳ</option>
+                        <option value="1">Có</option>
+                        <option value="2">Không</option>
                     </select>
                     <p>Chọn màu sắc</p>
                     <select name="color">
-                            <option value="1">Nâu</option>
-                            <option value="2">Đỏ</option>
-                            <option value="3">Cam</option>
-                            <option value="4">Xanh</option>
-                            <option value="5">Vàng</option>
-                            <option value="6">Tím</option>
-                            <option value="7">Trắng</option>
-                            <option value="8">Đen</option>
-                            <option value="9">Xám</option>
-                            <option value="10">Kem</option>
-                            <option value="11">Hồng</option>
+                        <option value="0">Tuỳ</option>
+                        <option value="1">Nâu</option>
+                        <option value="2">Đỏ</option>
+                        <option value="3">Cam</option>
+                        <option value="4">Xanh</option>
+                        <option value="5">Vàng</option>
+                        <option value="6">Tím</option>
+                        <option value="7">Trắng</option>
+                        <option value="8">Đen</option>
+                        <option value="9">Xám</option>
+                        <option value="10">Kem</option>
+                        <option value="11">Hồng</option>
                         </select> 
                     <input type="submit" value="Suggest" />
                 </form>
