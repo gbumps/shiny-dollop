@@ -37,9 +37,9 @@ public class DBUtils implements Serializable {
 						p.setString(1, t.getId());
 						p.setString(2, t.getName());
 						p.setByte(3, parseByte(t.isSale()));
-						p.setInt(4, (t.getDistributor().equals("Jadiny")) ? t.getPrice().intValue() * 1000: t.getPrice().intValue() * 1000);
+						p.setInt(4, (t.getDistributor().equals("Jadiny")) ? t.getPrice().intValue() * 1000: t.getPrice().intValue());
 						p.setInt(5, t.getOldprice().intValue());
-						p.setString(6, returnType(t.getType()));
+						p.setString(6, (t.getDistributor().equals("Jadiny")) ? configTypeForJadiny(t.getName()): returnType(t.getType()));
 						p.setString(7, t.getLink());
 						p.setByte(8, parseByte(t.isSex()));
 						p.setString(9, t.getDistributor());
@@ -108,6 +108,30 @@ public class DBUtils implements Serializable {
 		 closeConnection();
 		 if (count < 300) return false;
 		 else return true;
+	 } 
+	 
+	 public static String configTypeForJadiny(String name) {
+		 String[] t = name.split("-");
+		 String res = "";
+		 switch (t[0]) {
+			 case "ao":
+				 res = "Áo";
+				 break;
+			 case "bmn":
+				 res = "Bộ";
+				 break;
+			 case "quan": 
+				 res = "Quần";
+				 break;
+			 case "dam": 
+			 case "vay": 
+				 res = "Váy";
+				 break;
+			 default: 
+				 res = "Khác";
+				 break;
+		 }
+		 return res;
 	 } 
 	 
 	public static String getDataFromDB(String sql) throws Exception {

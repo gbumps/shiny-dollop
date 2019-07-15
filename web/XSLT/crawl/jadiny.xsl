@@ -14,11 +14,21 @@
     <!-- TODO customize transformation rules 
          syntax recommendation http://www.w3.org/TR/xslt 
     -->
-    <xsl:template match="/">
+    <xsl:template match="root">
         <ProductDetailLinks>
-            <xsl:for-each select="//div[@class='col-md-6 col-sm-6 col-lg-4 col-xs-6 product-holder']">
-                <xsl:variable name="link" select="./div/div[@class='image']/a/@href"/>
-                <Link>https://jadiny.vn<xsl:value-of select="$link"/></Link>
+            <xsl:for-each select="product">
+                <xsl:variable name="links" select="links/div[1]" />
+                <Product>
+                    <Links>
+                        <xsl:for-each select="$links/div[@class='col-md-6 col-sm-6 col-lg-4 col-xs-6 product-holder']">
+                            <xsl:variable name="link" select="div/div[@class='image']/a/@href"/>
+                            <Link>https://jadiny.vn<xsl:value-of select="$link"/></Link>
+                        </xsl:for-each>
+                    </Links>
+                    <Sex>
+                        <xsl:value-of select="sex" />
+                    </Sex>
+                </Product>
             </xsl:for-each>
         </ProductDetailLinks>
     </xsl:template>

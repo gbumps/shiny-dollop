@@ -20,9 +20,6 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class HomePageServlet extends HttpServlet {
 
-//	private static final String CONDITION = " WHERE p.Sex = ? AND p.Type IN (N'Đồ', N'Bộ', N'Set')";
-//	
-//	private static final String SELECT = "SELECT TOP 10 p.ID, p.Name, p.Price, p.OldPrice, (SELECT TOP 1 ImageLink FROM tblProductImage WHERE p.ID = OfProductID " + Constants.returnDBXMLRoot("Images", "") + ") FROM tblProduct p";
 	
 	/**
 	 * Processes requests for both HTTP <code>GET</code> and <code>POST</code>

@@ -152,7 +152,7 @@ public class SuggestionServlet extends HttpServlet {
 			case 11: 
 				return " AND Name LIKE '%hong%' OR Name LIKE '%hồng%'";
 		}
-		return "";
+		return ""; 
 	}
 	// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
 	/**

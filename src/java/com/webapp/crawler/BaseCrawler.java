@@ -23,6 +23,8 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.stream.Collectors;
 import javax.xml.XMLConstants;
 import javax.xml.bind.JAXBContext;
@@ -114,9 +116,8 @@ public class BaseCrawler {
 	  for (int i = 1; i <= propertiesReading.getPages(); i++) {
 		  String boyLink = propertiesReading.getBoyPage() + i, 
 						 girlLink = propertiesReading.getGirlPage() + i;
-				  //System.out.println("link: " + link);
-		  String boyHtmlProductDetailLinks = getHtmlDocsBody(boyLink, propertiesReading.getStartElement(), propertiesReading.getEndElement()), 
-							girlHtmlProductDetailLinks = getHtmlDocsBody(girlLink, propertiesReading.getStartElement(), propertiesReading.getEndElement());
+		  String boyHtmlProductDetailLinks = returnHtmlBasedOnGender(boyLink, true), 
+							girlHtmlProductDetailLinks = returnHtmlBasedOnGender(girlLink, false);
 		  htmlDocs.append(boyHtmlProductDetailLinks);
 			System.out.println("page " + i + " of " + webPageName +  " boy finished !");
 			htmlDocs.append(girlHtmlProductDetailLinks);
@@ -125,18 +126,23 @@ public class BaseCrawler {
 	  htmlDocs.insert(0, "<root>").insert(htmlDocs.length(), "</root>");
 		System.out.println("finished get link of all products !");
 		readDataAndTransformToXML(xslLinkDirectory, xmlOutputLinksFile, htmlDocs.toString());
-    System.out.println("finished transform to link!");
+    System.out.println("finished transform to xml link file of web " + webPageName);
 		htmlDocs.setLength(0);
-		ArrayList<String> list = getListProductDetail(xmlOutputLinksFile);
-	  list.forEach(t -> {
-			try {
-				htmlDocs.append("<product>"+ getHtmlDocsBody(t, propertiesReading.getStartDetailCrawl(), propertiesReading.getEndDetailCrawl()) + "<link href='"+ t +"'/>" + "</product>");
-				System.out.println("links " + t + " of " + webPageName + "completed");
-			} catch (Exception e) {
-				e.printStackTrace();
-				System.out.println("links " + t + " of " + webPageName + "error");
-			}
-		});
+    Map<String, ArrayList> p = getListProductDetail(xmlOutputLinksFile);
+		for (Map.Entry<String, ArrayList> entry : p.entrySet()) {
+			String sex = entry.getKey();
+			System.out.println("sex: " + sex);
+			ArrayList<String> links = entry.getValue();
+			links.forEach(t -> {
+				try {
+					htmlDocs.append("<product>"+ getHtmlDocsBody(t, propertiesReading.getStartDetailCrawl(), propertiesReading.getEndDetailCrawl()) + "<link href='"+ t +"'/>" + "<sex>" + sex + "</sex>" + "</product>");
+					System.out.println("link " + t + " completed");
+				} catch (Exception e) {
+					System.out.println("links " + t + " of " + webPageName + " error");
+					e.printStackTrace();
+				}
+			});
+		}
 		htmlDocs.insert(0, "<products>").insert(htmlDocs.length(), "</products>");
 
 		readDataAndTransformToXML(xslDetailDirectory, xmlOutputDetailFile, htmlDocs.toString());
@@ -146,16 +152,36 @@ public class BaseCrawler {
 		insertToDB();
 	}
 	
-	private ArrayList getListProductDetail(String file) throws Exception {	
-		 ArrayList<String> listProductLinks = new ArrayList<>();
-		 Document d = DomParser.returnDocument(file);
-		 NodeList nodes = DomParser.returnNodeList(d);
-		 for (int i=0; i<nodes.getLength(); i++){
-			 if (nodes.item(i).getNodeType() == Node.ELEMENT_NODE && nodes.item(i).getNodeName() == "Link"){					listProductLinks.add(nodes.item(i).getTextContent());
-			 }
-		 }
-		 return listProductLinks;
-	} 
+	private static Map<String, ArrayList> getListProductDetail(String file) throws Exception {	
+			Map<String, ArrayList> res = new HashMap<>();
+		  Document d = DomParser.returnDocument(file);
+		  NodeList nodes = DomParser.returnNodeList(d);
+		  for (int i = 0; i < nodes.getLength(); i++) {
+			  ArrayList<String> listProductLinks = new ArrayList<>();
+			  if (nodes.item(i).getNodeType() == Node.ELEMENT_NODE && nodes.item(i).getNodeName() == "Product") {	
+						NodeList productNodes = nodes.item(i).getChildNodes();
+						for (int j = 0; j < productNodes.getLength();j++) {
+							if (productNodes.item(j).getNodeType() == Node.ELEMENT_NODE && productNodes.item(j).getNodeName() == "Links") {					
+							NodeList linkNodes = productNodes.item(j).getChildNodes();
+							for (int k = 0; k < linkNodes.getLength(); k++) {
+								if (linkNodes.item(k).getNodeType() == Node.ELEMENT_NODE && linkNodes.item(k).getNodeName() == "Link"){					
+								listProductLinks.add(linkNodes.item(k).getTextContent());
+								}
+							}
+						}
+						if (productNodes.item(j).getNodeType() == Node.ELEMENT_NODE && productNodes.item(j).getNodeName() == "Sex") {
+							String sex = productNodes.item(j).getTextContent();
+							res.put(sex, listProductLinks); // Sex
+						}
+					}
+				}
+		  }
+		return res;
+	}
+	
+	private String returnHtmlBasedOnGender(String html, boolean b) throws Exception {
+		return "<product>" + "<links>" + getHtmlDocsBody(html, propertiesReading.getStartElement(), propertiesReading.getEndElement()) + "</links>" + "<sex>" + b +"</sex>" + "</product>"; 
+	}
 	
 	private void insertToDB() throws Exception {
 		JAXBContext jaxbc = JAXBContext.newInstance(Constants.PACKAGE_JAXB);

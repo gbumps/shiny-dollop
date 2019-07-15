@@ -43,7 +43,7 @@ public class Constants {
 	
 	public static final String PACKAGE_JAXB = "com.webapp.jaxb"; 
 	
-	public static final String GOOGLE_BOT = "Unknown";
+	public static final String GOOGLE_BOT = "Googlebot/2.1 (+http://www.googlebot.com/bot.html)";
 	
 	public static final String NO_DESCRIPTION = "Không có mô tả";
 	

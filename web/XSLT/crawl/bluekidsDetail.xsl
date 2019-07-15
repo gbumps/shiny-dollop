@@ -77,10 +77,7 @@
                     </xsl:for-each>
                 </options>
                 <sex>
-                    <xsl:choose>
-                        <xsl:when test="contains($link,'be-trai-4-14')">true</xsl:when>
-                        <xsl:otherwise>false</xsl:otherwise>
-                    </xsl:choose>
+                    <xsl:value-of select="sex" />
                 </sex>
                 <distributor>Bluekids</distributor>
                 <description>

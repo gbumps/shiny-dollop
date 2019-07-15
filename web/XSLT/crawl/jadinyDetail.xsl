@@ -63,15 +63,10 @@
                         </xsl:for-each>
                     </options>
                     <sex>
-                        <xsl:choose>
-                            <xsl:when test="contains($link,'be-trai')">true</xsl:when>
-                            <xsl:otherwise>false</xsl:otherwise>
-                        </xsl:choose>
+                        <xsl:value-of select="sex" />
                     </sex>
                     <distributor>Jadiny</distributor>
-                    <description>
-                        Xem chi tiết ở link bên dưới
-                    </description>
+                    <description>Xem chi tiết ở link dưới</description>
                     <cancombine>false</cancombine>
                 </product>
             </xsl:for-each>
