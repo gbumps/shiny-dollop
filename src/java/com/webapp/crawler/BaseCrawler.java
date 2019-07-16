@@ -6,6 +6,7 @@
 package com.webapp.crawler;
 
 
+import com.webapp.dto.PairProductLinks;
 import com.webapp.util.DBUtils;
 import com.webapp.jaxb.Products;
 import com.webapp.settings.Constants;
@@ -14,6 +15,7 @@ import com.webapp.util.TextUtils;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -23,21 +25,19 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.stream.Collectors;
 import javax.xml.XMLConstants;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
+import javax.xml.stream.XMLEventReader;
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.events.XMLEvent;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 /**
  *
  * @author stephen
@@ -84,18 +84,18 @@ public class BaseCrawler {
 	}
 
   public String getHtmlDocsBody(String urlString, String startElement, String endElement) throws MalformedURLException, IOException {
-			String document = "";
-			URL url = new URL(urlString);
-			URLConnection connection = url.openConnection() ;
-			connection.addRequestProperty(UserAgent, Constants.GOOGLE_BOT);
-			InputStream is = connection.getInputStream();
-			BufferedReader reader = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
-		  document = reader.lines().collect(Collectors.joining());
-		  document = TextUtils.subStringHtml(document.toString(), document.indexOf(startElement), document.indexOf(endElement, document.indexOf(startElement)));
-			document = TextUtils.removeUnusedTag(document);
-			document = TextUtils.refineHtml(document);
-			reader.close();
-			return document;
+		String document = "";
+		URL url = new URL(urlString);
+		URLConnection connection = url.openConnection() ;
+		connection.addRequestProperty(UserAgent, Constants.GOOGLE_BOT);
+		InputStream is = connection.getInputStream();
+		BufferedReader reader = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
+	  document = reader.lines().collect(Collectors.joining());
+	  document = TextUtils.subStringHtml(document.toString(), document.indexOf(startElement), document.indexOf(endElement, document.indexOf(startElement)));
+		document = TextUtils.removeUnusedTag(document);
+		document = TextUtils.refineHtml(document);
+		reader.close();
+		return document;
 	}
 	
 	private void readDataAndTransformToXML(String pathToXSL, String outputFileXML, String html) throws Exception{
@@ -128,21 +128,19 @@ public class BaseCrawler {
 		readDataAndTransformToXML(xslLinkDirectory, xmlOutputLinksFile, htmlDocs.toString());
     System.out.println("finished transform to xml link file of web " + webPageName);
 		htmlDocs.setLength(0);
-    Map<String, ArrayList> p = getListProductDetail(xmlOutputLinksFile);
-		for (Map.Entry<String, ArrayList> entry : p.entrySet()) {
-			String sex = entry.getKey();
-			System.out.println("sex: " + sex);
-			ArrayList<String> links = entry.getValue();
-			links.forEach(t -> {
+    ArrayList<PairProductLinks> p = getListProductDetail(xmlOutputLinksFile);
+		p.forEach(product -> {
+			String sex = product.getSex();
+			product.getLinks().forEach(link -> {
 				try {
-					htmlDocs.append("<product>"+ getHtmlDocsBody(t, propertiesReading.getStartDetailCrawl(), propertiesReading.getEndDetailCrawl()) + "<link href='"+ t +"'/>" + "<sex>" + sex + "</sex>" + "</product>");
-					System.out.println("link " + t + " completed");
+					htmlDocs.append("<product>"+ getHtmlDocsBody(link, propertiesReading.getStartDetailCrawl(), propertiesReading.getEndDetailCrawl()) + "<link href='"+ link +"'/>" + "<sex>" + sex + "</sex>" + "</product>");
+					System.out.println("link " + link + " completed");
 				} catch (Exception e) {
-					System.out.println("links " + t + " of " + webPageName + " error");
+					System.out.println("links " + link + " of " + webPageName + " error");
 					e.printStackTrace();
 				}
 			});
-		}
+		});
 		htmlDocs.insert(0, "<products>").insert(htmlDocs.length(), "</products>");
 
 		readDataAndTransformToXML(xslDetailDirectory, xmlOutputDetailFile, htmlDocs.toString());
@@ -152,31 +150,36 @@ public class BaseCrawler {
 		insertToDB();
 	}
 	
-	private static Map<String, ArrayList> getListProductDetail(String file) throws Exception {	
-			Map<String, ArrayList> res = new HashMap<>();
-		  Document d = DomParser.returnDocument(file);
-		  NodeList nodes = DomParser.returnNodeList(d);
-		  for (int i = 0; i < nodes.getLength(); i++) {
-			  ArrayList<String> listProductLinks = new ArrayList<>();
-			  if (nodes.item(i).getNodeType() == Node.ELEMENT_NODE && nodes.item(i).getNodeName() == "Product") {	
-						NodeList productNodes = nodes.item(i).getChildNodes();
-						for (int j = 0; j < productNodes.getLength();j++) {
-							if (productNodes.item(j).getNodeType() == Node.ELEMENT_NODE && productNodes.item(j).getNodeName() == "Links") {					
-							NodeList linkNodes = productNodes.item(j).getChildNodes();
-							for (int k = 0; k < linkNodes.getLength(); k++) {
-								if (linkNodes.item(k).getNodeType() == Node.ELEMENT_NODE && linkNodes.item(k).getNodeName() == "Link"){					
-								listProductLinks.add(linkNodes.item(k).getTextContent());
-								}
-							}
-						}
-						if (productNodes.item(j).getNodeType() == Node.ELEMENT_NODE && productNodes.item(j).getNodeName() == "Sex") {
-							String sex = productNodes.item(j).getTextContent();
-							res.put(sex, listProductLinks); // Sex
-						}
+	private static ArrayList getListProductDetail(String file) throws Exception {
+			ArrayList<PairProductLinks> res = new ArrayList();
+			XMLInputFactory factory = XMLInputFactory.newInstance();
+			XMLEventReader reader = factory.createXMLEventReader(new FileReader(file));
+			ArrayList<String> lists = null;
+			String sex = "";
+			while (reader.hasNext()) {
+				XMLEvent eventReader = reader.nextEvent();
+				if (eventReader.isStartElement()) {
+					String start = eventReader.asStartElement().getName().getLocalPart();
+					switch (start) {
+						case "Links": 
+							lists = new ArrayList<String>();
+							break;
+						case "Link":
+							eventReader = (XMLEvent) reader.next();
+							String character = eventReader.asCharacters().getData();
+							lists.add(character);
+							break;
+						case "Sex":
+							eventReader = (XMLEvent) reader.next();
+							sex = eventReader.asCharacters().getData();
+							break;
 					}
 				}
-		  }
-		return res;
+				if (eventReader.isEndElement() && eventReader.asEndElement().getName().getLocalPart().equals("Product")) {
+					res.add(new PairProductLinks(sex, lists));
+				}
+			}
+			return res;
 	}
 	
 	private String returnHtmlBasedOnGender(String html, boolean b) throws Exception {

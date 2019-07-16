@@ -24,6 +24,7 @@
                 <xsl:variable name="images" select="$container/div[1]/div[1]/div[@class='product-image-slider']/section/div/div[1]/ul"/>
                 <xsl:variable name="options" select="$info/div[@class='product-attributes ']/div[2]/ul"/>
                 <xsl:variable name="price" select="$info/div[@class='product-price']/ins/span[@class='amount']"/>
+                <xsl:variable name="oldprice" select="$info/div[@class='product-price']/del/span[@class='amount']"/>
                 <xsl:variable name="price1" select="translate($price,' VN&amp;#x110;','')"/>
                 <xsl:variable name="price2" select="translate($price1,'.','')"/>
                 <xsl:variable name="link" select="link/@href"/>
@@ -35,12 +36,30 @@
                     <name>
                         <xsl:value-of select="$container/div[1]/@data-url-slug"/>
                     </name>
-                    <sale>false</sale>
+                    <sale>
+                        <xsl:choose>
+                            <xsl:when test="not($oldprice)">
+                                false
+                            </xsl:when>
+                            <xsl:otherwise>
+                                true
+                            </xsl:otherwise>
+                        </xsl:choose>
+                    </sale>
                     <price>
                         <xsl:value-of select="number($price2)"/>
                     </price>
                     <oldprice>
-                        <xsl:value-of select="number($price2)"/>
+                        <xsl:choose>
+                            <xsl:when test="not($oldprice)">
+                                <xsl:value-of select="number($price2)"/>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <xsl:variable name="sale1" select="translate($oldprice,' VN&amp;#x110;','')"/>
+                                <xsl:variable name="sale2" select="translate($sale1,'.','')"/>
+                                <xsl:value-of select="number($sale2)"/>
+                            </xsl:otherwise>
+                        </xsl:choose>
                     </oldprice>
                     <type>
                         <xsl:value-of select="substring-before($info/h1[@class='single-product-title'],'-')"/>

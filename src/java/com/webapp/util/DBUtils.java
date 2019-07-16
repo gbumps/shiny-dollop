@@ -118,6 +118,7 @@ public class DBUtils implements Serializable {
 				 res = "Áo";
 				 break;
 			 case "bmn":
+			 case "bo":
 				 res = "Bộ";
 				 break;
 			 case "quan": 
