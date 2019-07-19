@@ -39,7 +39,7 @@ public class SearchProductServlet extends HttpServlet {
 						 navigate = request.getParameter("navigate");
 			System.out.println("navigate: " + navigate);
 			System.out.println("Search Servlet at XMLProject_Summer: " + query);
-		  xml = DBUtils.getDataFromDB("SELECT TOP 10 ID, Type, Name, Price, (SELECT TOP 1 ImageLink FROM tblProductImage i WHERE p.ID = OfProductID) AS Images FROM tblProduct p WHERE Name LIKE '%" + query + "%'" + Constants.returnDBXMLRoot(Constants.PRODUCTS, Constants.PRODUCT));
+		  xml = DBUtils.getDataFromDB("SELECT TOP 7 ID, Type, Name, Price, (SELECT TOP 1 ImageLink FROM tblProductImage i WHERE p.ID = OfProductID) AS Images FROM tblProduct p WHERE Name LIKE '%" + query + "%'" + Constants.returnDBXMLRoot(Constants.PRODUCTS, Constants.PRODUCT));
 			System.out.println("xml: " + xml);
 			response.setCharacterEncoding("UTF-8");
 			if (navigate.equals("true")) {

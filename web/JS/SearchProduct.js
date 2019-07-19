@@ -1,6 +1,9 @@
 var textInputSearch = document.getElementById("search");
 var timeout = null;
 textInputSearch.addEventListener("keyup", (e) => {
+    var spinner = document.createElement("div");
+    spinner.className = "loader";
+    document.getElementById("searchProduct").appendChild(spinner);
     if (e.keyCode == 13) {
         window.location.href = "SearchProductServlet?navigate=true&query=" + textInputSearch.value;
     }//Enter 
@@ -71,5 +74,3 @@ function getResponseHeader(request, response) {
         }
     }
 }
-
-

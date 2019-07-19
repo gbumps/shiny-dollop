@@ -38,7 +38,7 @@ public class DBUtils implements Serializable {
 						p.setString(2, t.getName());
 						p.setByte(3, parseByte(t.isSale()));
 						p.setInt(4, (t.getDistributor().equals("Jadiny")) ? t.getPrice().intValue() * 1000: t.getPrice().intValue());
-						p.setInt(5, t.getOldprice().intValue());
+						p.setInt(5, (t.getDistributor().equals("Jadiny")) ? t.getOldprice().intValue() * 1000 : t.getOldprice().intValue());
 						p.setString(6, (t.getDistributor().equals("Jadiny")) ? configTypeForJadiny(t.getName()): returnType(t.getType()));
 						p.setString(7, t.getLink());
 						p.setByte(8, parseByte(t.isSex()));

@@ -14,6 +14,13 @@
         <link rel="stylesheet" href="CSS/homepage.css" type="text/css"/>
         <link rel="stylesheet" href="CSS/productItem.css" type="text/css"/>
         <link rel="stylesheet" href="CSS/modal.css" type="text/css"/>
+        <link rel="stylesheet" href="CSS/spinner.css" type="text/css"/>
+        <style>
+            .filter {
+                display: inline-block;
+                width: 50%;
+            }
+        </style>
         <title>Sản phẩm theo kiểu</title>
     </head>
     <body>
@@ -25,15 +32,24 @@
             <a href="NavigateServlet?page=homepage"> Trang chủ </a>
             <a id="myBtn">Gợi ý sản phẩm</a>
             <div class="search-container">
-                <input size="450" id="search" type="text" placeholder="Tìm đầm bé gái, áo bé trai,....vv"/>
+                <input id="search" type="text" placeholder="Tìm đầm bé gái, áo bé trai,....vv"/>
                 <div id="searchProduct">
                 </div>
             </div>
         </div>
         <div class="container">
             <div class="main">
+                <div class="filter">
+                    <h4>Lọc theo</h4>
+                    <p>Giá sản phẩm</p>
+                    <select id="priceRange">
+                        <option value="1">0-500k</option>
+                        <option value="2">500k-1tr</option>
+                        <option value="3">Nhiều hơn 1tr</option>
+                    </select>
+                </div>
                 <h2><c:out value="${type}" /></h2>
-                <div class="container-item">
+                <div class="container-item" id="product-item-container">
                     <xm:parse var="resultXML" xml="${result}" scope="request" />
                     <c:if test="${not empty resultXML}">
                         <xm:transform xml="${resultXML}" xslt="${ProductXSL}" />  
@@ -106,6 +122,10 @@
             </div>
         </div>
     </body>
-    <script type="text/javascript" src="JS/showModal.js"></script>
+    <script>
+        var productList = document.getElementsByClassName("product-item");
+    </script>
+    <script src="JS/showModal.js" type="text/javascript" ></script>
     <script src="JS/SearchProduct.js" type="text/javascript"></script>
+    <script src="JS/Filter.js" type="text/javascript"> </script>
 </html>
